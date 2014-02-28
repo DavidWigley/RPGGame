@@ -146,6 +146,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				JOptionPane.showMessageDialog(null, "You did not enter easy, medium, or hard");
 			}
 		}
+		AIHealth*=difficulty;
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
@@ -787,7 +788,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		//checks if AI is close enough to attack with melee
 		if ((Math.abs(AIX - x) <= 10) && Math.abs(AIY - y) <= 3) {
-			//healthX -=.4;
+			healthX -=(.5 * difficulty);
 			if (healthX <= 0) {
 				dead  = true;
 			}
