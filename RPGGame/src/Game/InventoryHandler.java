@@ -1,7 +1,7 @@
 package Game;
 
 public class InventoryHandler {
-
+	//inventory class
 	public static int inventorySlots = 20;
 	public static int inventory[][] = new int[inventorySlots][inventorySlots];
 	

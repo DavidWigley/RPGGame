@@ -8,7 +8,7 @@ package Game;
 import javax.swing.JFrame;
 
 public class ControlBase {
-
+	//setting up object
 	private static MainGame game = new MainGame();
 	public JFrame frame = new JFrame("Game");
 	

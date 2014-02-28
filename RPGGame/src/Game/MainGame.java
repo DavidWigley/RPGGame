@@ -7,7 +7,6 @@ package Game;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -24,11 +23,12 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 import Game.ControlBase;
 
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
@@ -68,11 +68,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Clip clip;
 	AudioInputStream attackIn;
 	Clip attackClip;
+	AudioInputStream backgroundGame;
+	Clip backgroundMusic;
+	boolean inFlight;
 	boolean notPlayingSound, shouldPlaySound;
 	
 	//player variables
-	double attack, weight, defense, movement, dodgeChance;
-	int attackStyle = 1;
+	int attackStyle;
 	float gravity = 0.2f, x = 350, y = 590, velocityX, velocityY;
 	boolean isGrounded, right, left, shield, dead;
 	
@@ -90,7 +92,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private boolean fireLeft, fireRight, shouldDrawMap, alreadyRan,
 	shouldDrawInv;
 	private float aX = x, aY = y, lastPressed = 0;
-	private boolean isReleased, lClick, rClick, drawArrow, mouseClicked;
+	private boolean lClick, rClick, drawArrow, mouseClicked;
 	
 	//melee variables
 	private boolean drawSword = false;
@@ -109,10 +111,41 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	float AIVelocityX, AIVelocityY;
 	float AIX = x + 500;
 	float AIY = y + 5;
-	
+	int AIHealth = 200;
+	boolean AIDead = false;
+	String choice;
+	private int difficulty = 1;
+	private boolean doneEnteringValues;
+	int cooldown = 0;
 	public MainGame() {
-		
-
+		while(!doneEnteringValues) {
+			choice = JOptionPane.showInputDialog(null, "Would you like a sword or bow?");
+			if (choice.equalsIgnoreCase("bow")) {
+				attackStyle = 2;
+				doneEnteringValues = true;
+			} else if (choice.equalsIgnoreCase("sword")){
+				attackStyle = 1;
+				doneEnteringValues = true;
+			}else {
+				JOptionPane.showMessageDialog(null, "You did not enter bow or sword");
+			}
+		}
+		doneEnteringValues = false;
+		while (!doneEnteringValues) {
+			choice = JOptionPane.showInputDialog(null, "Easy, medium, or hard?");
+			if (choice.equalsIgnoreCase("easy")) {
+				difficulty = 1;
+				doneEnteringValues = true;
+			}else if (choice.equalsIgnoreCase("medium")) {
+				difficulty = 2;
+				doneEnteringValues = true;
+			} else if (choice.equalsIgnoreCase("hard")){
+				difficulty = 3;
+				doneEnteringValues = true;
+			}else {
+				JOptionPane.showMessageDialog(null, "You did not enter easy, medium, or hard");
+			}
+		}
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
@@ -128,7 +161,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
 		try {
-			startMusic();
+//			startMusic();
+			startBackgroundMusic();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,7 +195,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		try {
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
-			if ((!escape) && (!dead)) {
+			if ((!escape) && (!dead) &&(!AIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
 				//g.drawImage(SwordHorizontalL, 200, 200, this);
 				g.setColor(Color.red);
@@ -176,6 +210,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					g.fillRect(900, 40, 100, healthY);
 					g.setColor(Color.red);
 					g.fillRect(900, 40, (healthX/2), healthY);
+					g.setColor(Color.blue);
+					g.fillRect(50, 40, (AIHealth/2), healthY);
 					// draws string health bar. In future may want to make that
 					// an image so it can be bigger
 					g.setColor(Color.black);
@@ -196,13 +232,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					g.drawRect(invX, invY + 80, 40, 40);
 					g.drawRect(invX + 40, invY + 80, 40, 40);
 					g.drawRect(invX + 80, invY + 40, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
-					// g.drawRect(200, 200, 40, 40);
 				}
 				
 				//AI
@@ -213,6 +242,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				g.drawImage(earlyAccess, 0, 24, this);
 
 				if ((drawArrow == true) && (attackStyle == 2)) {
+					inFlight = true;
 					shouldPlaySound = true;
 					if ((fireLeft) && (currentlyDrawingArrow != 2)) {
 						goingLeft = true;
@@ -229,6 +259,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					}
 				}
 				if ((aX >= 1024) || (!drawArrow) || (aX <= 0)) {
+					inFlight = false;
 					aX = x;
 					aY = y;
 					currentlyDrawingArrow = 0;
@@ -243,22 +274,47 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			if (attackStyle == 1){
 				if (drawSword) {
 					swordCount++;
-					if (swordCount < 5) {
-						//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
-						g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);					}
-					else if (swordCount > 5 && swordCount <=15) {
-						g.drawImage(Sword45L,Math.round(x) - 45, Math.round(y) - 30, this);
-					}else if (swordCount >15 && swordCount<30) {
-						g.drawImage(SwordL, Math.round(x) - 63, Math.round(y), this);	
-					}
-					else  if  (swordCount >30 || !drawSword){
-						g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
-						swordCount = 0;	
+					if (mouseLeft) {
+						if (swordCount < 5) {
+							//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
+							g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+						}
+						else if (swordCount > 5 && swordCount <=15) {
+							g.drawImage(Sword45L,Math.round(x) - 45, Math.round(y) - 30, this);
+						}else if (swordCount >15 && swordCount<30) {
+							g.drawImage(SwordL, Math.round(x) - 63, Math.round(y), this);	
+						}
+						else  if  (swordCount >30 || !drawSword){
+							g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+							swordCount = 0;	
+						}
+					}else {
+						if (swordCount < 5) {
+							//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
+							g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+									-SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
+						}
+						else if (swordCount > 5 && swordCount <=15) {
+							g.drawImage(Sword45L,Math.round(x) + 80, Math.round(y) - 30,
+									-Sword45L.getWidth(this), Sword45L.getHeight(this), this);
+						}else if (swordCount >15 && swordCount<30) {
+							g.drawImage(SwordL, Math.round(x) +90, Math.round(y), -SwordL.getWidth(this), SwordL.getHeight(this), this);	
+						}
+						else  if  (swordCount >30 || !drawSword){
+							g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+									-SwordHorizontalL.getWidth(this), SwordHorizontalL.getHeight(this), this);
+							swordCount = 0;	
+						}
 					}
 				}
 				else {
-					g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
-					swordCount = 0;	
+					if(mouseLeft) {
+						g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+					}else{
+						g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+								-SwordHorizontalL.getWidth(this), SwordHorizontalL.getHeight(this), this);
+					}
+					swordCount = 0;
 				}
 				if (wasReleased) {
 					lClick = false;
@@ -275,6 +331,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				g.setColor(Color.black);
 				g.drawRect(0, 0, 1024, 768);
 				g.drawString("Dead", 512, 389);
+			} else if(AIDead) {
+				g.setColor(Color.black);
+				g.drawRect(0, 0, 1024, 768);
+				g.drawString("You win", 512, 389);
 			}
 
 		} finally {
@@ -484,6 +544,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void melee() {
 		// swing
+		//cooldown doesnt work with melee. Way it works is it 
+		//effectively stops render with melee there is animation 
+		//so doesnt work
 		if (lClick == true) {
 			drawSword = true;
 		} else{
@@ -508,7 +571,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void range() {
 		// shoot
-		if (lClick == true) {
+		if (lClick == true && cooldown == 0) {
 			drawArrow = true;
 		} else {
 			drawArrow = false;
@@ -610,6 +673,17 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		attackClip.start();
 		notPlayingSound = true;
 	}
+	public void startBackgroundMusic() throws Exception {
+		backgroundGame = AudioSystem.getAudioInputStream(getClass().getResource(
+				"/resources/Digitalism.wav"));
+		backgroundMusic = AudioSystem.getClip();
+		try {
+			backgroundMusic.open(backgroundGame);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		backgroundMusic.loop(278);
+	}
 
 	public void timerTask() {
 		if (!escape) {
@@ -669,22 +743,56 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					e.printStackTrace();
 				}
 			}
-			//checks if AI is close enough to attack with melee
-			if ((Math.abs(AIX - x) <= 10) && Math.abs(AIY - y) <= 3) {
-				//healthX -=.4;
-				if (healthX <= 0) {
-					dead  = true;
-				}
+			if (cooldown>0) {
+				cooldown--;
 			}
 			checkMouse();
 //			System.out.println("AIX "+ AIX);
 //			System.out.println("AIY "+ AIY);
 			
 			AIMove();
+			AIDamage();
 			paint();
 		}
 	}
-	
+	public void AIDamage() {
+		if (attackStyle == 2) {
+			if ((inFlight) && (Math.abs(aX-AIX) < 5) && (Math.abs(aY-AIY)) < 4 ) {
+				AIHealth-=25;
+				drawArrow = false;
+				cooldown = 15;
+				if (AIHealth <= 0) {
+					AIDead = true;
+				}
+			}
+		}else {
+
+			if (mouseLeft) {
+				if ((drawSword) && (cooldown ==0) && (x -AIX <85) && (x-AIX >-1) && (y - AIY < 20) && (y-AIY>-5)) {
+					AIHealth-=50;
+					cooldown = 5;
+					if (AIHealth <= 0) {
+						AIDead = true;
+					}
+				}
+			}else {
+				if ((drawSword) && (cooldown == 0) && (AIX-x <85) && (AIX - x > -1) && (y - AIY < 20) && (y-AIY>-5)) {
+					AIHealth-=50;
+					cooldown = 5;
+					if (AIHealth <= 0) {
+						AIDead = true;
+					}
+				}
+			}
+		}
+		//checks if AI is close enough to attack with melee
+		if ((Math.abs(AIX - x) <= 10) && Math.abs(AIY - y) <= 3) {
+			//healthX -=.4;
+			if (healthX <= 0) {
+				dead  = true;
+			}
+		}
+	}
 	public void AIMove() {
 		AIVelocityY += (gravity * 3);
 		AIX += AIVelocityX;
