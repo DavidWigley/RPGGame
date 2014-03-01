@@ -16,21 +16,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Game.ControlBase;
 
+@SuppressWarnings("serial")
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
 
 	ControlBase base = new ControlBase();
@@ -163,7 +161,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
 		try {
-//			startMusic();
 			startBackgroundMusic();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -639,18 +636,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			alreadyRan = true;
 		}
 
-	}
-
-	public void startMusic() throws Exception, IOException {
-		audioIn = AudioSystem.getAudioInputStream(getClass().getResource(
-				"/resources/intro.wav"));
-		clip = AudioSystem.getClip();
-		try {
-			clip.open(audioIn);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		clip.start();
 	}
 
 	public void stopMusic() {
