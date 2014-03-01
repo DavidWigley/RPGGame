@@ -776,6 +776,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			paint();
 		}
 	}
+	
+	/**
+	 * Method that handles damage to AI objects
+	 */
 	public void AIDamage() {
 		if (attackStyle == 2) {
 			if (currentAI == 0) {
@@ -849,23 +853,307 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AI4Dead = AI4.isDead();
 				}
 			}
+			
+			else if (currentAI == 4) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+			}
+			
+			else if (currentAI == 5) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI6Dead = AI6.isDead();
+				}
+			}
+			
+			else if (currentAI == 6) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI6Dead = AI6.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI7Dead = AI7.isDead();
+				}
+			}
+			
+			else if (currentAI == 7) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI6Dead = AI6.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI7Dead = AI7.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI8Dead = AI8.isDead();
+				}
+			}
+			
+			else if (currentAI == 8) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI6Dead = AI6.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI7Dead = AI7.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI8Dead = AI8.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI9Dead = AI9.isDead();
+				}
+			}
+			
+			else if(currentAI == 9) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI5Dead = AI5.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI6Dead = AI6.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI7Dead = AI7.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI8Dead = AI8.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI9Dead = AI9.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI10.getAIX()) < 5) && (Math.abs(aY-AI10.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI10Dead = AI10.isDead();
+				}
+			}
 		}else {
 
 			if (mouseLeft) {
-				if ((drawSword) && (cooldown ==0) && (x -AIX <85) && (x-AIX >-1) && (y - AIY < 20) && (y-AIY>-5)) {
+				if ((drawSword) && (cooldown ==0) && (x -AI1.getAIX() <85) && (x-AI1.getAIX() >-1) && (y - AI1.getAIY() < 20) && (y-AI1.getAIY()>-5)) {
 					AIHealth-=50;
 					cooldown = 5;
-					if (AIHealth <= 0) {
-						AIDead = true;
-					}
+					AI1Dead = AI1.isDead();
 				}
 			}else {
-				if ((drawSword) && (cooldown == 0) && (AIX-x <85) && (AIX - x > -1) && (y - AIY < 20) && (y-AIY>-5)) {
+				if ((drawSword) && (cooldown == 0) && (AI1.getAIX()-x <85) && (AI1.getAIX() - x > -1) && (y - AI1.getAIY() < 20) && (y-AI1.getAIY()>-5)) {
 					AIHealth-=50;
 					cooldown = 5;
-					if (AIHealth <= 0) {
-						AIDead = true;
-					}
+					AI1Dead = AI1.isDead();
 				}
 			}
 		}
