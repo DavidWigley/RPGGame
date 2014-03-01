@@ -16,21 +16,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-import java.io.IOException;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import Game.ControlBase;
 
+@SuppressWarnings("serial")
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
 
 	ControlBase base = new ControlBase();
@@ -43,12 +40,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image Arrowl = arrowIconl.getImage();
 	ImageIcon arrowIconr = new ImageIcon(getClass().getResource("/resources/arrowr.png"));
 	Image Arrowr = arrowIconr.getImage();
-	ImageIcon mapIcon = new ImageIcon(getClass().getResource("/resources/map.png"));
-	Image map = mapIcon.getImage();
-	ImageIcon inventoryIcon = new ImageIcon(getClass().getResource("/resources/inventorypic.png"));
-	Image inventory = inventoryIcon.getImage();
-	ImageIcon equipmentIcon = new ImageIcon(getClass().getResource("/resources/equipment.png"));
-	Image equipment = equipmentIcon.getImage();
 	ImageIcon frameIconI = new ImageIcon(getClass().getResource("/resources/nuke.png"));
 	Image frameIcon = frameIconI.getImage();
 	ImageIcon earlyAccessIcon = new ImageIcon(getClass().getResource("/resources/early_access.jpg"));
@@ -86,10 +77,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int currentlyDrawingArrow = 0;
 	boolean wasReleased = true;
 	private boolean alreadyShot = false;
-	private boolean fireLeft, fireRight, shouldDrawMap, alreadyRan,
-	shouldDrawInv;
+	private boolean fireLeft, fireRight;
 	private float aX = x, aY = y, lastPressed = 0;
-	private boolean lClick, rClick, drawArrow, mouseClicked;
+	private boolean lClick, rClick, drawArrow;
 	
 	//melee variables
 	private boolean drawSword = false;
@@ -101,7 +91,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int invX = 600;
 	int invY = 200;
 	private boolean UI = true;
-	private boolean escape, escapePushed, onMap, onInventory, onEquipment, AIGrounded;
+	private boolean escape, escapePushed;
 
 	
 	//AI variables
@@ -269,9 +259,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				// toggles UI
 				if (UI) {
 					g.setColor(Color.darkGray);
-					g.drawImage(map, 20, 720, this);
-					g.drawImage(inventory, 120, 720, this);
-					g.drawImage(equipment, 200, 720, this);
 					// health bar
 					g.fillRect(900, 40, 100, healthY);
 					g.setColor(Color.red);
@@ -283,21 +270,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					g.setColor(Color.black);
 					g.drawString("Health Bar", 900, 38);
 
-				}
-				// toggles Map
-				if (shouldDrawMap) {
-					g.drawImage(picture, 200, 100, 700, 600, this);
-				}
-				if (shouldDrawInv) {
-					g.drawRect(invX, invY, 40, 40);
-					g.drawRect(invX + 40, invY + 40, 40, 40);
-					g.drawRect(invX + 80, invY + 80, 40, 40);
-					g.drawRect(invX + 40, invY, 40, 40);
-					g.drawRect(invX + 80, invY, 40, 40);
-					g.drawRect(invX, invY + 40, 40, 40);
-					g.drawRect(invX, invY + 80, 40, 40);
-					g.drawRect(invX + 40, invY + 80, 40, 40);
-					g.drawRect(invX + 80, invY + 40, 40, 40);
 				}
 				
 				//AI
@@ -555,31 +527,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			mouseRight = false;
 			mouseLeft = true;
 		}
-		if ((e.getX() >= 20) && (e.getX() <= 65) && (e.getY() >= 720)
-				&& (e.getY() <= 765)) {
-			onMap = true;
-		} else if ((e.getX() >= 120) && (e.getX() <= 165) && (e.getY() >= 720)
-				&& (e.getY() <= 765)) {
-			onInventory = true;
-		} else if ((e.getX() >= 200) && (e.getX() <= 245) && (e.getY() >= 720)
-				&& (e.getY() <= 765)) {
-			onEquipment = true;
-		}
-		if ((e.getX() < 20) || (e.getX() > 65) || (e.getY() < 720)
-				|| (e.getY() > 765)) {
-			onMap = false;
-			alreadyRan = false;
-		}
-		if ((e.getX() < 120) || (e.getX() > 165) || (e.getY() < 720)
-				|| (e.getY() > 765)) {
-			onInventory = false;
-			alreadyRan = false;
-		}
-		if ((e.getX() < 200) || (e.getX() > 245) || (e.getY() < 720)
-				|| (e.getY() > 765)) {
-			onEquipment = false;
-			alreadyRan = false;
-		}
 
 	}
 
@@ -610,7 +557,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				aY = y;
 			}
 			alreadyShot = true;
-			mouseClicked = true;
 		}
 		else if (SwingUtilities.isRightMouseButton(click)) {
 			rClick = true;
@@ -624,9 +570,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	public void mouseReleased(MouseEvent release) {
 		if (SwingUtilities.isLeftMouseButton(release)) {
 			wasReleased = true;
-			// lClick = false;
-			// drawingArrow = false;
-			mouseClicked = false;
 		}
 
 		else if (SwingUtilities.isRightMouseButton(release)) {
@@ -699,10 +642,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				lastPressed = 2;
 			}
 		}
-		// down arrow
-//		if (e.getKeyCode() == 40 || e.getKeyCode() == 83) {
-//			down = false;
-//		}
+
 		// toggle UI
 		if (e.getKeyCode() == 112) {
 			if (UI) {
@@ -785,34 +725,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 	}
 
-	public void checkMouse() {
-		if ((onMap == true) && (mouseClicked == true) && (!alreadyRan)) {
-			// opens map
-			System.out.println("map should open");
-			alreadyRan = true;
-			if (!shouldDrawMap) {
-				shouldDrawMap = true;
-			} else if (shouldDrawMap) {
-				shouldDrawMap = false;
-			}
-		}
-		if ((onInventory == true) && (mouseClicked == true) && (!alreadyRan)) {
-			// opens inventory
-			System.out.println("inventory should open");
-			alreadyRan = true;
-			if (!shouldDrawInv) {
-				shouldDrawInv = true;
-			} else if (shouldDrawInv) {
-				shouldDrawInv = false;
-			}
-		}
-		if ((onEquipment == true) && (mouseClicked == true) && (!alreadyRan)) {
-			// open equipment menu
-			System.out.println("equipment should open");
-			alreadyRan = true;
-		}
-
-	}
 
 	public void stopMusic() {
 		backgroundMusic.stop();
@@ -904,8 +816,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}
 			if (cooldown>0) {
 				cooldown--;
-			}
-			checkMouse();		
+			}	
 			AIMove();
 			AIDamage();
 			if ((AI1Dead) && (AI2Dead) && (AI3Dead) && (AI4Dead) && (AI5Dead) && (AI6Dead) && (AI7Dead) && (AI8Dead) && (AI9Dead) && (AI10Dead)) {
