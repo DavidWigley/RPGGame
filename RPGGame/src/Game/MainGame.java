@@ -119,6 +119,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int numAI;
 	AI AI1,AI2,AI3,AI4,AI5,AI6,AI7,AI8,AI9,AI10;
 	int currentAI=0;
+	
+	
+	//custom colors
+	Color orangeRed = new Color(238, 64, 0);
+	Color lightGreen;
 	public MainGame() {
 		while(!doneEnteringValues) {
 			choice = JOptionPane.showInputDialog(null, "Would you like a sword or bow?");
@@ -152,8 +157,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		while(!doneEnteringValues){
 			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Note may not work");
 			int amount = Integer.parseInt(choice);
-			if (amount <=0 || amount > 10) {
+			if (amount <=0 || amount < 10) {
 				numAI = amount;
+				doneEnteringValues = true;
 			}else {
 				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
 			}
@@ -278,9 +284,17 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 				
 				//AI
-				g.setColor(Color.blue);
-				g.fillOval(Math.round(AIX), Math.round(AIY), 20, 20);
-
+				if (currentAI == 1) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+				} else if (currentAI == 2) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+				} else if (currentAI == 3) {
+					
+				}
 				// early access banner
 				g.drawImage(earlyAccess, 0, 24, this);
 
@@ -782,7 +796,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void AIDamage() {
 		if (attackStyle == 2) {
-			if (currentAI == 0) {
+			if (currentAI == 1) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AI1.setHealth(-25);
 					drawArrow = false;
@@ -791,7 +805,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 1) {
+			else if (currentAI == 2) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -806,7 +820,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 2) {
+			else if (currentAI == 3) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -827,7 +841,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 3) {
+			else if (currentAI == 4) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -854,7 +868,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 4) {
+			else if (currentAI == 5) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -887,7 +901,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 5) {
+			else if (currentAI == 6) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -926,7 +940,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 6) {
+			else if (currentAI == 7) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -971,7 +985,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 7) {
+			else if (currentAI == 8) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -1022,7 +1036,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if (currentAI == 8) {
+			else if (currentAI == 9) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -1079,7 +1093,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 			}
 			
-			else if(currentAI == 9) {
+			else if(currentAI == 10) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
 					AIHealth-=25;
 					drawArrow = false;
@@ -1166,39 +1180,111 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 	}
 	public void AIMove() {
-		AIVelocityY += (gravity * 3);
-		AIX += AIVelocityX;
-		AIY += AIVelocityY;
+		if (currentAI == 1) {
+			AI1.move();
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					System.out.println("trying to move AI1YV");
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+		} 
+		else if (currentAI == 2) {
+			AI1.move();
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+		}
+//		AIVelocityY += (gravity * 3);
+//		AIX += AIVelocityX;
+//		AIY += AIVelocityY;
 		
-		if (AIY >= 590) {
-			AIGrounded = true;
-			AIVelocityY = 0;
-			AIY = 590;
-		} else {
-			isGrounded = false;
-		}
-		if ((AIX > x) && (AIVelocityX >-4)) {
-			if(Math.abs(AIX - x) <= 10) {
-				AIVelocityX = 0;
-			}
-			else {
-				AIVelocityX -= .7;
-			}
-		}
-		else if ((AIX < x) && (AIVelocityX < 4)) {
-			if(Math.abs(AIX - x) <= 10) {
-				AIVelocityX = 0;
-			}
-			else {
-				AIVelocityX += .7;
-			}
-		}
-		
-		if ((AIY > y) && (isGrounded)) {
-			if (AIGrounded) {
-				AIVelocityY -=5;
-			}
-		}
+		//implemented in AI class now
+//		if (AIY >= 590) {
+//			AIGrounded = true;
+//			AIVelocityY = 0;
+//			AIY = 590;
+//		} else {
+//			AIGrounded = false;
+//		}
+//		if ((AIX > x) && (AIVelocityX >-4)) {
+//			if(Math.abs(AIX - x) <= 10) {
+//				AIVelocityX = 0;
+//			}
+//			else {
+//				AIVelocityX -= .7;
+//			}
+//		}
+//		else if ((AIX < x) && (AIVelocityX < 4)) {
+//			if(Math.abs(AIX - x) <= 10) {
+//				AIVelocityX = 0;
+//			}
+//			else {
+//				AIVelocityX += .7;
+//			}
+//		}
+//		
+//		if ((AIY > y) && (isGrounded)) {
+//			if (AIGrounded) {
+//				AIVelocityY -=5;
+//			}
+//		}
 		
 	}
 }

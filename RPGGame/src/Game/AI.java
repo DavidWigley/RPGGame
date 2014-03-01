@@ -10,6 +10,8 @@ public class AI {
 	float AIX;
 	float AIY;
 	double AIHealth;
+	private static final float gravity = 0.2f;
+	private boolean AIGrounded;
 	
 	public AI(float x, float y, double health) {
 		AIX = x;
@@ -20,6 +22,10 @@ public class AI {
 		AIX = defaultX;
 		AIY = defaultY;
 		AIHealth = defaultHealth;
+	}
+	
+	public boolean isAIGrounded() {
+		return AIGrounded;
 	}
 	
 	public float getAIX() {
@@ -47,4 +53,33 @@ public class AI {
 			return false;
 		}
 	}
+	
+	public float getAIVelocityX() {
+		return AIVelocityX;
+	}
+	
+	public float getAIVelocityY() {
+		return AIVelocityY;
+	}
+	
+	public void setAIVelocityX(float amount) {
+		AIVelocityX+=amount;
+	}
+	
+	public void setAIVelocityY(float amount) {
+		AIVelocityY+=amount;
+	}
+	public void move() {
+		AIVelocityY+= (gravity * 3);
+		AIX+=AIVelocityX;
+		AIY+=AIVelocityY;
+		if (AIY >= 590) {
+			AIGrounded = true;
+			AIVelocityY = 0;
+			AIY = 590;
+		} else {
+			AIGrounded = false;
+		}
+	}
+	
 }
