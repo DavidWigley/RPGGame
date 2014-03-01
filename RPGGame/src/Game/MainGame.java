@@ -148,46 +148,46 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				JOptionPane.showMessageDialog(null, "You did not enter easy, medium, or hard");
 			}
 		}
-//		doneEnteringValues=false;
-//		while(!doneEnteringValues){
-//			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Note may not work");
-//			int amount = Integer.parseInt(choice);
-//			if (amount <=0 || amount > 10) {
-//				numAI = amount;
-//			}else {
-//				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
-//			}
-//		}
+		doneEnteringValues=false;
+		while(!doneEnteringValues){
+			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Note may not work");
+			int amount = Integer.parseInt(choice);
+			if (amount <=0 || amount > 10) {
+				numAI = amount;
+			}else {
+				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
+			}
+		}
 		AIHealth*=difficulty;
-//		int currentAI=0;
-//		int increaseX = 0;
-//		int increaseY = 0;
-//		while(currentAI<numAI) {
-//			if (currentAI == 0) {
-//				AI1= new AI(AIX, AIY, AIHealth);
-//			}else if (currentAI == 1) {
-//				AI2 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
-//			}else if (currentAI ==2) {
-//				AI3 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
-//			}else if (currentAI == 3) {
-//				AI4 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 4) {
-//				AI5 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 5) {
-//				AI6 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 6) {
-//				AI7 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 7) {
-//				AI8 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 8) {
-//				AI9 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}else if (currentAI == 9) {
-//				AI10 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-//			}
-//			currentAI++;
-//			increaseX+=5;
-//			increaseY+=5;
-//		}
+		int currentAI=0;
+		int increaseX = 0;
+		int increaseY = 0;
+		while(currentAI<numAI) {
+			if (currentAI == 0) {
+				AI1= new AI(AIX, AIY, AIHealth);
+			}else if (currentAI == 1) {
+				AI2 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
+			}else if (currentAI ==2) {
+				AI3 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
+			}else if (currentAI == 3) {
+				AI4 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 4) {
+				AI5 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 5) {
+				AI6 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 6) {
+				AI7 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 7) {
+				AI8 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 8) {
+				AI9 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}else if (currentAI == 9) {
+				AI10 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+			}
+			currentAI++;
+			increaseX+=5;
+			increaseY+=5;
+		}
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
