@@ -62,10 +62,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	
 	
 	
-	
 	//music variables
-	AudioInputStream audioIn;
-	Clip clip;
 	AudioInputStream attackIn;
 	Clip attackClip;
 	AudioInputStream backgroundGame;
@@ -112,13 +109,16 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	float AIX = x + 500;
 	float AIY = y + 5;
 	int AIHealth = 200;
-	boolean AIDead = false;
+	boolean AI1Dead = true, AI2Dead = true, AI3Dead = true, AI4Dead = true, AI5Dead = true,AI6Dead = true,
+			AI7Dead = true, AI8Dead = true, AI9Dead = true, AI10Dead = true;
+	boolean allAIDead;
 	String choice;
 	private int difficulty = 1;
 	private boolean doneEnteringValues;
 	int cooldown = 0;
 	int numAI;
 	AI AI1,AI2,AI3,AI4,AI5,AI6,AI7,AI8,AI9,AI10;
+	int currentAI=0;
 	public MainGame() {
 		while(!doneEnteringValues) {
 			choice = JOptionPane.showInputDialog(null, "Would you like a sword or bow?");
@@ -159,35 +159,45 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}
 		}
 		AIHealth*=difficulty;
-		int currentAI=0;
 		int increaseX = 0;
 		int increaseY = 0;
 		while(currentAI<numAI) {
 			if (currentAI == 0) {
 				AI1= new AI(AIX, AIY, AIHealth);
+				AI1Dead = false;
 			}else if (currentAI == 1) {
 				AI2 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
+				AI2Dead = false;
 			}else if (currentAI ==2) {
 				AI3 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
+				AI3Dead = false;
 			}else if (currentAI == 3) {
 				AI4 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI4Dead = false;
 			}else if (currentAI == 4) {
 				AI5 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI5Dead = false;
 			}else if (currentAI == 5) {
 				AI6 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI6Dead = false;
 			}else if (currentAI == 6) {
 				AI7 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI7Dead = false;
 			}else if (currentAI == 7) {
 				AI8 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI8Dead = false;
 			}else if (currentAI == 8) {
 				AI9 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI9Dead = false;
 			}else if (currentAI == 9) {
 				AI10 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
+				AI10Dead = false;
 			}
 			currentAI++;
 			increaseX+=5;
 			increaseY+=5;
 		}
+		
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
@@ -196,14 +206,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.addMouseListener(this);
 		base.frame.addMouseMotionListener(this);
 		base.frame.addKeyListener(this);
-		//JPanel panel = new JPanel();
-		//Container pane = base.frame.getContentPane();
-		//pane.add(panel);
 		base.frame.setVisible(true);
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
 		try {
-//			startMusic();
 			startBackgroundMusic();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,12 +229,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	/**
-	 * Paint method. Idea: make separate method to handle drawing stuff that
-	 * remains constant no matter what. ie: string health bar Also main menu?
-	 * 
-	 * @param InvImage
-	 *            is what gets passed in to draw the inventory image
-	 * 
+	 * Paint method. Handles drawing for the game.
 	 */
 	public void paint() {
 		BufferStrategy bf = base.frame.getBufferStrategy();
@@ -237,7 +238,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		try {
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
-			if ((!escape) && (!dead) &&(!AIDead)) {
+			if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
 				//g.drawImage(SwordHorizontalL, 200, 200, this);
 				g.setColor(Color.red);
@@ -373,7 +374,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				g.setColor(Color.black);
 				g.drawRect(0, 0, 1024, 768);
 				g.drawString("Dead", 512, 389);
-			} else if(AIDead) {
+			} else if(allAIDead) {
 				g.setColor(Color.black);
 				g.drawRect(0, 0, 1024, 768);
 				g.drawString("You win", 512, 389);
@@ -635,17 +636,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 
-	// needs more math to actually move arrows and rely on feedback off the
-	// mouse.
 	public void arrowMech() {
-		// fixes arrow flight change adds another bug
-		// && drawingArrow == false
 		if ((mouseLeft == true)) {
 			fireLeft = true;
 			fireRight = false;
 		}
-		// fixes arrow flight change adds another bug
-		// && drawingArrow == false
 		if ((mouseRight == true)) {
 			fireRight = true;
 			fireLeft = false;
@@ -681,20 +676,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 	}
 
-	public void startMusic() throws Exception, IOException {
-		audioIn = AudioSystem.getAudioInputStream(getClass().getResource(
-				"/resources/intro.wav"));
-		clip = AudioSystem.getClip();
-		try {
-			clip.open(audioIn);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
-		clip.start();
-	}
-
 	public void stopMusic() {
-		clip.stop();
+		backgroundMusic.stop();
 	}
 
 	public void attackSound() throws Exception {
@@ -728,7 +711,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void timerTask() {
-		if (!escape) {
+		if ((!escape) && (!dead) && (!allAIDead)) {
 			velocityY += gravity;
 			x += velocityX;
 			y += velocityY;
@@ -759,10 +742,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			} else {
 				isGrounded = false;
 			}
-			// moves down
-//			if (down == true) {
-//				y += 2;
-//			}
 			if (goingLeft == true) {
 				aX-=7;
 			}
@@ -788,23 +767,86 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			if (cooldown>0) {
 				cooldown--;
 			}
-			checkMouse();
-//			System.out.println("AIX "+ AIX);
-//			System.out.println("AIY "+ AIY);
-			
+			checkMouse();		
 			AIMove();
 			AIDamage();
+			if ((AI1Dead) && (AI2Dead) && (AI3Dead) && (AI4Dead) && (AI5Dead) && (AI6Dead) && (AI7Dead) && (AI8Dead) && (AI9Dead) && (AI10Dead)) {
+				allAIDead = true;
+			}
 			paint();
 		}
 	}
 	public void AIDamage() {
 		if (attackStyle == 2) {
-			if ((inFlight) && (Math.abs(aX-AIX) < 5) && (Math.abs(aY-AIY)) < 4 ) {
-				AIHealth-=25;
-				drawArrow = false;
-				cooldown = 15;
-				if (AIHealth <= 0) {
-					AIDead = true;
+			if (currentAI == 0) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AI1.setHealth(-25);
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+			}
+			
+			else if (currentAI == 1) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+			}
+			
+			else if (currentAI == 2) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+			}
+			
+			else if (currentAI == 3) {
+				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI1Dead = AI1.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI2Dead = AI2.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI3Dead = AI3.isDead();
+				}
+				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
+					AIHealth-=25;
+					drawArrow = false;
+					cooldown = 15;
+					AI4Dead = AI4.isDead();
 				}
 			}
 		}else {

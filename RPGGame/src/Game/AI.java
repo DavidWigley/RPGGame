@@ -10,7 +10,6 @@ public class AI {
 	float AIX;
 	float AIY;
 	double AIHealth;
-	boolean AIDead = false;
 	
 	public AI(float x, float y, double health) {
 		AIX = x;
@@ -32,10 +31,20 @@ public class AI {
 	public double getAIHealth() {
 		return AIHealth;
 	}
+	public void setHealth(int amount) {
+		AIHealth-=amount;
+	}
 	public void moveAIX(int amount){
 		AIX +=amount;
 	}
 	public void moveAIY(int amount){
 		AIY +=amount;
+	}
+	public boolean isDead() {
+		if (AIHealth<=0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }
