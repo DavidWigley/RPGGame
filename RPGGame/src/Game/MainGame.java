@@ -671,10 +671,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			escape = false;
 			escapePushed = true;
 		}
-		//space
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			InventoryHandler.addItem(1, 11);
-		}
+		
 	}
 
 	/**
