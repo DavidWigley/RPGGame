@@ -1308,7 +1308,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 	public void AIMove() {
 		if (currentAI == 1) {
-			AI1.move();
 			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
 				if(Math.abs(AI1.getAIX() - x) <= 10) {
 					AI1.setAIVelocityX(0);
@@ -1324,16 +1323,16 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AI1.setAIVelocityX(.7f);
 				}
 			}
-			
 			if ((AI1.getAIY() > y) && (isGrounded)) {
 				if (AI1.isAIGrounded()) {
 					System.out.println("trying to move AI1YV");
 					AI1.setAIVelocityY(-.5f);
 				}
 			}
-		} 
-		else if (currentAI == 2) {
 			AI1.move();
+		} 
+		
+		else if (currentAI == 2) {
 			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
 				if(Math.abs(AI1.getAIX() - x) <= 10) {
 					AI1.setAIVelocityX(0);
@@ -1349,13 +1348,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AI1.setAIVelocityX(.7f);
 				}
 			}
-			
 			if ((AI1.getAIY() > y) && (isGrounded)) {
 				if (AI1.isAIGrounded()) {
 					AI1.setAIVelocityY(-.5f);
 				}
 			}
-			AI2.move();
+			AI1.move();
+			
 			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
 				if(Math.abs(AI2.getAIX() - x) <= 10) {
 					AI2.setAIVelocityX(0);
@@ -1371,47 +1370,1182 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AI2.setAIVelocityX(.7f);
 				}
 			}
-			
 			if ((AI2.getAIY() > y) && (isGrounded)) {
 				if (AI2.isAIGrounded()) {
 					AI2.setAIVelocityY(-.5f);
 				}
 			}
+			AI2.move();
+
 		}
-//		AIVelocityY += (gravity * 3);
-//		AIX += AIVelocityX;
-//		AIY += AIVelocityY;
 		
-		//implemented in AI class now
-//		if (AIY >= 590) {
-//			AIGrounded = true;
-//			AIVelocityY = 0;
-//			AIY = 590;
-//		} else {
-//			AIGrounded = false;
-//		}
-//		if ((AIX > x) && (AIVelocityX >-4)) {
-//			if(Math.abs(AIX - x) <= 10) {
-//				AIVelocityX = 0;
-//			}
-//			else {
-//				AIVelocityX -= .7;
-//			}
-//		}
-//		else if ((AIX < x) && (AIVelocityX < 4)) {
-//			if(Math.abs(AIX - x) <= 10) {
-//				AIVelocityX = 0;
-//			}
-//			else {
-//				AIVelocityX += .7;
-//			}
-//		}
-//		
-//		if ((AIY > y) && (isGrounded)) {
-//			if (AIGrounded) {
-//				AIVelocityY -=5;
-//			}
-//		}
+		else if (currentAI == 3) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+		}
 		
+		else if(currentAI == 4){
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+		}
+		
+		else if (currentAI == 5) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+		}
+		
+		else if (currentAI == 6) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+			
+			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(-.7f);
+				}
+			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI6.getAIY() > y) && (isGrounded)) {
+				if (AI6.isAIGrounded()) {
+					AI6.setAIVelocityY(-.5f);
+				}
+			}
+			AI6.move();
+		}
+		
+		else if (currentAI == 7) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+			
+			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(-.7f);
+				}
+			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI6.getAIY() > y) && (isGrounded)) {
+				if (AI6.isAIGrounded()) {
+					AI6.setAIVelocityY(-.5f);
+				}
+			}
+			AI6.move();
+			
+			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(-.7f);
+				}
+			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI7.getAIY() > y) && (isGrounded)) {
+				if (AI7.isAIGrounded()) {
+					AI7.setAIVelocityY(-.5f);
+				}
+			}
+			AI7.move();
+		}
+		
+		else if (currentAI == 8) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+			
+			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(-.7f);
+				}
+			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI6.getAIY() > y) && (isGrounded)) {
+				if (AI6.isAIGrounded()) {
+					AI6.setAIVelocityY(-.5f);
+				}
+			}
+			AI6.move();
+			
+			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(-.7f);
+				}
+			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI7.getAIY() > y) && (isGrounded)) {
+				if (AI7.isAIGrounded()) {
+					AI7.setAIVelocityY(-.5f);
+				}
+			}
+			AI7.move();
+			
+			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(-.7f);
+				}
+			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI8.getAIY() > y) && (isGrounded)) {
+				if (AI8.isAIGrounded()) {
+					AI8.setAIVelocityY(-.5f);
+				}
+			}
+			AI8.move();
+		}
+		
+		else if (currentAI == 9) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+			
+			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(-.7f);
+				}
+			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI6.getAIY() > y) && (isGrounded)) {
+				if (AI6.isAIGrounded()) {
+					AI6.setAIVelocityY(-.5f);
+				}
+			}
+			AI6.move();
+			
+			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(-.7f);
+				}
+			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI7.getAIY() > y) && (isGrounded)) {
+				if (AI7.isAIGrounded()) {
+					AI7.setAIVelocityY(-.5f);
+				}
+			}
+			AI7.move();
+			
+			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(-.7f);
+				}
+			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI8.getAIY() > y) && (isGrounded)) {
+				if (AI8.isAIGrounded()) {
+					AI8.setAIVelocityY(-.5f);
+				}
+			}
+			AI8.move();
+			
+			if ((AI9.getAIX() > x) && (AI9.getAIVelocityX() >-4)) {
+				if(Math.abs(AI9.getAIX() - x) <= 10) {
+					AI9.setAIVelocityX(0);
+				}
+				else {
+					AI9.setAIVelocityX(-.7f);
+				}
+			}else if ((AI9.getAIX() < x) && (AI9.getAIVelocityX() < 4)) {
+				if(Math.abs(AI9.getAIX() - x) <= 10) {
+					AI9.setAIVelocityX(0);
+				}
+				else {
+					AI9.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI9.getAIY() > y) && (isGrounded)) {
+				if (AI9.isAIGrounded()) {
+					AI9.setAIVelocityY(-.5f);
+				}
+			}
+			AI9.move();
+		}
+		
+		else if (currentAI == 10) {
+			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(-.7f);
+				}
+			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
+				if(Math.abs(AI1.getAIX() - x) <= 10) {
+					AI1.setAIVelocityX(0);
+				}
+				else {
+					AI1.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI1.getAIY() > y) && (isGrounded)) {
+				if (AI1.isAIGrounded()) {
+					AI1.setAIVelocityY(-.5f);
+				}
+			}
+			AI1.move();
+			
+			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(-.7f);
+				}
+			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
+				if(Math.abs(AI2.getAIX() - x) <= 10) {
+					AI2.setAIVelocityX(0);
+				}
+				else {
+					AI2.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI2.getAIY() > y) && (isGrounded)) {
+				if (AI2.isAIGrounded()) {
+					AI2.setAIVelocityY(-.5f);
+				}
+			}
+			AI2.move();
+			
+
+			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(-.7f);
+				}
+			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
+				if(Math.abs(AI3.getAIX() - x) <= 10) {
+					AI3.setAIVelocityX(0);
+				}
+				else {
+					AI3.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI3.getAIY() > y) && (isGrounded)) {
+				if (AI3.isAIGrounded()) {
+					AI3.setAIVelocityY(-.5f);
+				}
+			}
+			AI3.move();
+			
+			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(-.7f);
+				}
+			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
+				if(Math.abs(AI4.getAIX() - x) <= 10) {
+					AI4.setAIVelocityX(0);
+				}
+				else {
+					AI4.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI4.getAIY() > y) && (isGrounded)) {
+				if (AI4.isAIGrounded()) {
+					AI4.setAIVelocityY(-.5f);
+				}
+			}
+			AI4.move();
+			
+			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(-.7f);
+				}
+			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
+				if(Math.abs(AI5.getAIX() - x) <= 10) {
+					AI5.setAIVelocityX(0);
+				}
+				else {
+					AI5.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI5.getAIY() > y) && (isGrounded)) {
+				if (AI5.isAIGrounded()) {
+					AI5.setAIVelocityY(-.5f);
+				}
+			}
+			AI5.move();
+			
+			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(-.7f);
+				}
+			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
+				if(Math.abs(AI6.getAIX() - x) <= 10) {
+					AI6.setAIVelocityX(0);
+				}
+				else {
+					AI6.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI6.getAIY() > y) && (isGrounded)) {
+				if (AI6.isAIGrounded()) {
+					AI6.setAIVelocityY(-.5f);
+				}
+			}
+			AI6.move();
+			
+			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(-.7f);
+				}
+			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
+				if(Math.abs(AI7.getAIX() - x) <= 10) {
+					AI7.setAIVelocityX(0);
+				}
+				else {
+					AI7.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI7.getAIY() > y) && (isGrounded)) {
+				if (AI7.isAIGrounded()) {
+					AI7.setAIVelocityY(-.5f);
+				}
+			}
+			AI7.move();
+			
+			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(-.7f);
+				}
+			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
+				if(Math.abs(AI8.getAIX() - x) <= 10) {
+					AI8.setAIVelocityX(0);
+				}
+				else {
+					AI8.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI8.getAIY() > y) && (isGrounded)) {
+				if (AI8.isAIGrounded()) {
+					AI8.setAIVelocityY(-.5f);
+				}
+			}
+			AI8.move();
+			
+			if ((AI9.getAIX() > x) && (AI9.getAIVelocityX() >-4)) {
+				if(Math.abs(AI9.getAIX() - x) <= 10) {
+					AI9.setAIVelocityX(0);
+				}
+				else {
+					AI9.setAIVelocityX(-.7f);
+				}
+			}else if ((AI9.getAIX() < x) && (AI9.getAIVelocityX() < 4)) {
+				if(Math.abs(AI9.getAIX() - x) <= 10) {
+					AI9.setAIVelocityX(0);
+				}
+				else {
+					AI9.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI9.getAIY() > y) && (isGrounded)) {
+				if (AI9.isAIGrounded()) {
+					AI9.setAIVelocityY(-.5f);
+				}
+			}
+			AI9.move();
+			
+			if ((AI10.getAIX() > x) && (AI10.getAIVelocityX() >-4)) {
+				if(Math.abs(AI10.getAIX() - x) <= 10) {
+					AI10.setAIVelocityX(0);
+				}
+				else {
+					AI10.setAIVelocityX(-.7f);
+				}
+			}else if ((AI10.getAIX() < x) && (AI10.getAIVelocityX() < 4)) {
+				if(Math.abs(AI10.getAIX() - x) <= 10) {
+					AI10.setAIVelocityX(0);
+				}
+				else {
+					AI10.setAIVelocityX(.7f);
+				}
+			}
+			if ((AI10.getAIY() > y) && (isGrounded)) {
+				if (AI10.isAIGrounded()) {
+					AI10.setAIVelocityY(-.5f);
+				}
+			}
+			AI10.move();
+		}
 	}
 }
+//FIN

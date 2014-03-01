@@ -63,7 +63,12 @@ public class AI {
 	}
 	
 	public void setAIVelocityX(float amount) {
-		AIVelocityX+=amount;
+		if (amount!=0) {
+			AIVelocityX+=amount;
+		}
+		else {
+			AIVelocityX =0;
+		}
 	}
 	
 	public void setAIVelocityY(float amount) {
