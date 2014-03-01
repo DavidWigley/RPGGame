@@ -106,7 +106,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	
 	//AI variables
 	float AIVelocityX, AIVelocityY;
-	float AIX = x + 500;
+	float AIX = x + 400;
 	float AIY = y + 5;
 	int AIHealth = 200;
 	boolean AI1Dead = true, AI2Dead = true, AI3Dead = true, AI4Dead = true, AI5Dead = true,AI6Dead = true,
@@ -122,8 +122,16 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	
 	
 	//custom colors
-	Color orangeRed = new Color(238, 64, 0);
+	Color orangeRed;
 	Color lightGreen;
+	Color zebPurple;
+	Color cyan;
+	Color pink;
+	Color darkGold;
+	Color steelBlue;
+	Color gray;
+	Color yellow;
+	
 	public MainGame() {
 		while(!doneEnteringValues) {
 			choice = JOptionPane.showInputDialog(null, "Would you like a sword or bow?");
@@ -155,9 +163,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		doneEnteringValues=false;
 		while(!doneEnteringValues){
-			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Note may not work");
+			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Max of 10. Note may not work");
 			int amount = Integer.parseInt(choice);
-			if (amount <=0 || amount < 10) {
+			if (amount < 0 || amount <= 10) {
 				numAI = amount;
 				doneEnteringValues = true;
 			}else {
@@ -174,34 +182,43 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}else if (currentAI == 1) {
 				AI2 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
 				AI2Dead = false;
+				orangeRed = new Color(238, 64, 0);
 			}else if (currentAI ==2) {
 				AI3 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
 				AI3Dead = false;
+				lightGreen = new Color(0,238,0);
 			}else if (currentAI == 3) {
 				AI4 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI4Dead = false;
+				zebPurple = new Color(47,11,37);
 			}else if (currentAI == 4) {
 				AI5 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI5Dead = false;
+				cyan = new Color(0,205,205);
 			}else if (currentAI == 5) {
 				AI6 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI6Dead = false;
+				pink = new Color(238,18,137);
 			}else if (currentAI == 6) {
 				AI7 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI7Dead = false;
+				darkGold = new Color(205,149,12);
 			}else if (currentAI == 7) {
 				AI8 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI8Dead = false;
+				steelBlue = new Color(35,107,142);
 			}else if (currentAI == 8) {
 				AI9 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI9Dead = false;
+				gray = new Color(128,128,128);
 			}else if (currentAI == 9) {
 				AI10 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 				AI10Dead = false;
+				yellow = new Color(255,255,0);
 			}
 			currentAI++;
-			increaseX+=5;
-			increaseY+=5;
+			increaseX+=10;
+			increaseY-=5;
 		}
 		
 		base.frame.setVisible(true);
@@ -293,7 +310,117 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					g.setColor(orangeRed);
 					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
 				} else if (currentAI == 3) {
-					
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+				} else if (currentAI == 4) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+				} else if(currentAI ==5) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+				} else if (currentAI == 6) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					g.setColor(lightGreen);
+					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+				} else if(currentAI == 7) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					g.setColor(lightGreen);
+					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					g.setColor(zebPurple);
+					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+				} else if (currentAI == 8) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					g.setColor(lightGreen);
+					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					g.setColor(zebPurple);
+					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					g.setColor(pink);
+					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+				} else if (currentAI == 9) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					g.setColor(lightGreen);
+					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					g.setColor(zebPurple);
+					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					g.setColor(pink);
+					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					g.setColor(steelBlue);
+					g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
+				} else if(currentAI == 10) {
+					g.setColor(Color.blue);
+					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					g.setColor(orangeRed);
+					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					g.setColor(cyan);
+					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					g.setColor(darkGold);
+					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					g.setColor(gray);
+					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					g.setColor(lightGreen);
+					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					g.setColor(zebPurple);
+					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					g.setColor(pink);
+					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					g.setColor(steelBlue);
+					g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
+					g.setColor(yellow);
+					g.fillOval(Math.round(AI10.getAIX()), Math.round(AI10.getAIY()), 20, 20);
 				}
 				// early access banner
 				g.drawImage(earlyAccess, 0, 24, this);
