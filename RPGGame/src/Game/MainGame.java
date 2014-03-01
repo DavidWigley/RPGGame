@@ -1,7 +1,5 @@
 /**
  * @author Anthony Foster + David Wigley
- * @art Therone McQueen + Alex Taylor
- * @music Jake Berlandi
  */
 package Game;
 
@@ -16,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -154,9 +151,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.addMouseListener(this);
 		base.frame.addMouseMotionListener(this);
 		base.frame.addKeyListener(this);
-		//JPanel panel = new JPanel();
-		//Container pane = base.frame.getContentPane();
-		//pane.add(panel);
 		base.frame.setVisible(true);
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
@@ -180,11 +174,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	/**
-	 * Paint method. Idea: make separate method to handle drawing stuff that
-	 * remains constant no matter what. ie: string health bar Also main menu?
-	 * 
-	 * @param InvImage
-	 *            is what gets passed in to draw the inventory image
+	 * Paint method. Handles all drawing functions
 	 * 
 	 */
 	public void paint() {
@@ -473,10 +463,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			right = true;
 			lastPressed = 1;
 		}
-		// down arrow
-//		if (e.getKeyCode() == 40 || e.getKeyCode() == 83) {
-//			down = true;
-//		}
 		// escape key
 		if ((e.getKeyCode() == 27) && (!escape) && (!escapePushed) && (!dead)) {
 			escape = true;
@@ -517,10 +503,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				lastPressed = 2;
 			}
 		}
-		// down arrow
-//		if (e.getKeyCode() == 40 || e.getKeyCode() == 83) {
-//			down = false;
-//		}
 		// toggle UI
 		if (e.getKeyCode() == 112) {
 			if (UI) {
@@ -591,18 +573,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 	}
 
-
-	// needs more math to actually move arrows and rely on feedback off the
-	// mouse.
 	public void arrowMech() {
-		// fixes arrow flight change adds another bug
-		// && drawingArrow == false
 		if ((mouseLeft == true)) {
 			fireLeft = true;
 			fireRight = false;
 		}
-		// fixes arrow flight change adds another bug
-		// && drawingArrow == false
 		if ((mouseRight == true)) {
 			fireRight = true;
 			fireLeft = false;
@@ -704,10 +679,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			} else {
 				isGrounded = false;
 			}
-			// moves down
-//			if (down == true) {
-//				y += 2;
-//			}
 			if (goingLeft == true) {
 				aX-=7;
 			}
@@ -734,9 +705,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				cooldown--;
 			}
 			checkMouse();
-//			System.out.println("AIX "+ AIX);
-//			System.out.println("AIY "+ AIY);
-			
 			AIMove();
 			AIDamage();
 			paint();
