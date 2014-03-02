@@ -1,7 +1,6 @@
 /**
  * @author Anthony Foster + David Wigley
- * @art Therone McQueen + Alex Taylor
- * @music Jake Berlandi
+ * @music Andrew Zucker
  */
 package Game;
 
@@ -24,13 +23,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
-import Game.ControlBase;
+import Game.StartUp;
 
 @SuppressWarnings("serial")
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
-
-	ControlBase base = new ControlBase();
+	StartUp base = new StartUp();
 	
 	//pictures
 	ImageIcon background = new ImageIcon(getClass().getResource("/resources/background test2.png"));
@@ -50,7 +47,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image Sword45L = sword45LIcon.getImage();
 	ImageIcon swordLIcon = new ImageIcon(getClass().getResource("/resources/sword l.png"));
 	Image SwordL = swordLIcon.getImage();
-	
 	
 	
 	//music variables
@@ -253,7 +249,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			g.clearRect(0, 0, 1024, 768);
 			if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
-				//g.drawImage(SwordHorizontalL, 200, 200, this);
 				g.setColor(Color.red);
 				g.fillOval(Math.round(x), Math.round(y), 20, 20);
 				// toggles UI
@@ -269,7 +264,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					// an image so it can be bigger
 					g.setColor(Color.black);
 					g.drawString("Health Bar", 900, 38);
-
 				}
 				
 				//AI
@@ -411,7 +405,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 						goingLeft = false;
 						currentlyDrawingArrow = 2;
 						g.drawImage(Arrowr, Math.round(aX), Math.round(aY), this);
-
 					}
 				}
 				if ((aX >= 1024) || (!drawArrow) || (aX <= 0)) {
@@ -432,7 +425,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					swordCount++;
 					if (mouseLeft) {
 						if (swordCount < 5) {
-							//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
 							g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
 						}
 						else if (swordCount > 5 && swordCount <=15) {
@@ -496,7 +488,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		} finally {
 			g.dispose();
 		}
-
 		// Shows the contents of the backbuffer on the screen.
 		bf.show();
 	}
@@ -601,10 +592,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			right = true;
 			lastPressed = 1;
 		}
-		// down arrow
-//		if (e.getKeyCode() == 40 || e.getKeyCode() == 83) {
-//			down = true;
-//		}
 		// escape key
 		if ((e.getKeyCode() == 27) && (!escape) && (!escapePushed) && (!dead)) {
 			escape = true;
@@ -750,7 +737,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 	public void startBackgroundMusic() throws Exception {
 		backgroundGame = AudioSystem.getAudioInputStream(getClass().getResource(
-				"/resources/Digitalism.wav"));
+				"/resources/background music.wav"));
 		backgroundMusic = AudioSystem.getClip();
 		try {
 			backgroundMusic.open(backgroundGame);
@@ -827,7 +814,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 	
 	/**
-	 * Method that handles damage to AI objects
+	 * Method that handles damage to AI objects. Fairly long and only bow portion works.
 	 */
 	public void AIDamage() {
 		if (attackStyle == 2) {
