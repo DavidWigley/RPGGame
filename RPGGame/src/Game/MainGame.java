@@ -620,11 +620,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (e.getX() > 250) {
+		if (e.getX() > x) {
 			mouseLeft = false;
 			mouseRight = true;
 		}
-		if (e.getX() < 250) {
+		if (e.getX() < x) {
 			mouseRight = false;
 			mouseLeft = true;
 		}
