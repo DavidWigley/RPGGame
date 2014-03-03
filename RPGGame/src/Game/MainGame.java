@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -92,7 +94,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	
 	//AI variables
 	float AIVelocityX, AIVelocityY;
-	float AIX = x + 400;
+	float AIX = x + 300;
 	float AIY = y + 5;
 	int AIHealth = 200;
 	boolean AI1Dead = true, AI2Dead = true, AI3Dead = true, AI4Dead = true, AI5Dead = true,AI6Dead = true,
@@ -117,6 +119,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Color steelBlue;
 	Color gray;
 	Color yellow;
+	Random generator = new Random();
 	
 	public MainGame() {
 		while(!doneEnteringValues) {
@@ -203,7 +206,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				yellow = new Color(255,255,0);
 			}
 			currentAI++;
-			increaseX+=10;
+			increaseX+=generator.nextInt(500) - 249;
 			increaseY-=5;
 		}
 		
