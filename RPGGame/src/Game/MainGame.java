@@ -268,125 +268,235 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				
 				//AI
 				if (currentAI == 1) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					if (!AI1Dead){
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 2) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if (!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 3) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if (!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 4) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
 				} else if(currentAI ==5) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 6) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					g.setColor(lightGreen);
-					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
+					if(!AI6Dead) {
+						g.setColor(lightGreen);
+						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					}
 				} else if(currentAI == 7) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					g.setColor(lightGreen);
-					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					g.setColor(zebPurple);
-					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
+					if(!AI6Dead) {
+						g.setColor(lightGreen);
+						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					}
+					if(!AI7Dead) {
+						g.setColor(zebPurple);
+						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 8) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					g.setColor(lightGreen);
-					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					g.setColor(zebPurple);
-					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					g.setColor(pink);
-					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
+					if(!AI6Dead) {
+						g.setColor(lightGreen);
+						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					}
+					if(!AI7Dead) {
+						g.setColor(zebPurple);
+						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					}
+					if (!AI8Dead) {
+						g.setColor(pink);
+						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					}
 				} else if (currentAI == 9) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					g.setColor(lightGreen);
-					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					g.setColor(zebPurple);
-					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					g.setColor(pink);
-					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
-					g.setColor(steelBlue);
-					g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
+					if(!AI6Dead) {
+						g.setColor(lightGreen);
+						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					}
+					if(!AI7Dead) {
+						g.setColor(zebPurple);
+						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					}
+					if (!AI8Dead) {
+						g.setColor(pink);
+						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					}
+					if (!AI9Dead) {
+						g.setColor(steelBlue);
+						g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
+					}
 				} else if(currentAI == 10) {
-					g.setColor(Color.blue);
-					g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					g.setColor(orangeRed);
-					g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					g.setColor(cyan);
-					g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					g.setColor(darkGold);
-					g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					g.setColor(gray);
-					g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					g.setColor(lightGreen);
-					g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					g.setColor(zebPurple);
-					g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					g.setColor(pink);
-					g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
-					g.setColor(steelBlue);
-					g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
-					g.setColor(yellow);
-					g.fillOval(Math.round(AI10.getAIX()), Math.round(AI10.getAIY()), 20, 20);
+					if (!AI1Dead) {
+						g.setColor(Color.blue);
+						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+					}
+					if(!AI2Dead) {
+						g.setColor(orangeRed);
+						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+					}
+					if (!AI3Dead) {
+						g.setColor(cyan);
+						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+					}
+					if (!AI4Dead) {
+						g.setColor(darkGold);
+						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+					}
+					if (!AI5Dead) {
+						g.setColor(gray);
+						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
+					}
+					if(!AI6Dead) {
+						g.setColor(lightGreen);
+						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
+					}
+					if(!AI7Dead) {
+						g.setColor(zebPurple);
+						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
+					}
+					if (!AI8Dead) {
+						g.setColor(pink);
+						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
+					}
+					if (!AI9Dead) {
+						g.setColor(steelBlue);
+						g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
+					}
+					if (!AI10Dead) {
+						g.setColor(yellow);
+						g.fillOval(Math.round(AI10.getAIX()), Math.round(AI10.getAIY()), 20, 20);
+					}
 				}
 				// early access banner
 				g.drawImage(earlyAccess, 0, 24, this);
