@@ -38,7 +38,7 @@ public class AI {
 		return AIHealth;
 	}
 	public void setHealth(int amount) {
-		AIHealth-=amount;
+		AIHealth+=amount;
 	}
 	public void moveAIX(int amount){
 		AIX +=amount;
@@ -86,5 +86,4 @@ public class AI {
 			AIGrounded = false;
 		}
 	}
-	
 }
