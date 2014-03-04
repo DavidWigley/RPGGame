@@ -12,6 +12,7 @@ public class AI {
 	double AIHealth;
 	private static final float gravity = 0.2f;
 	private boolean AIGrounded;
+	private boolean canMove = true;
 	
 	public AI(float x, float y, double health) {
 		AIX = x;
@@ -48,6 +49,7 @@ public class AI {
 	}
 	public boolean isDead() {
 		if (AIHealth<=0) {
+			die();
 			return true;
 		}else {
 			return false;
@@ -75,6 +77,7 @@ public class AI {
 		AIVelocityY+=amount;
 	}
 	public void move() {
+		if (canMove) {
 		AIVelocityY+= (gravity * 3);
 		AIX+=AIVelocityX;
 		AIY+=AIVelocityY;
@@ -85,5 +88,12 @@ public class AI {
 		} else {
 			AIGrounded = false;
 		}
+		}
+	}
+	
+	public void die() {
+		canMove = false;
+		AIX = -1000;
+		AIY = -1000;
 	}
 }

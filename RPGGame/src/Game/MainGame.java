@@ -1347,7 +1347,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AIHealth-=25;
 					drawArrow = false;
 					cooldown = 15;
-					AI9Dead = AI9.isDead();
+					AI9Dead = AI9.isDead(); 
 				}
 				if ((inFlight) && (Math.abs(aX-AI10.getAIX()) < 5) && (Math.abs(aY-AI10.getAIY())) < 4 ) {
 					AIHealth-=25;
