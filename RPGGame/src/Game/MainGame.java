@@ -1008,13 +1008,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 2) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
@@ -1023,19 +1023,19 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 3) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
@@ -1044,25 +1044,25 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 4) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
@@ -1071,31 +1071,31 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 5) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
@@ -1104,37 +1104,37 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 6) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI6.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI6Dead = AI6.isDead();
@@ -1143,43 +1143,43 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 7) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI6.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI6Dead = AI6.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI7.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI7Dead = AI7.isDead();
@@ -1188,49 +1188,49 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 8) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI6.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI6Dead = AI6.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI7.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI7Dead = AI7.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI8.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI8Dead = AI8.isDead();
@@ -1239,55 +1239,55 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if (currentAI == 9) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI6.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI6Dead = AI6.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI7.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI7Dead = AI7.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI8.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI8Dead = AI8.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI9.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI9Dead = AI9.isDead();
@@ -1296,61 +1296,61 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			
 			else if(currentAI == 10) {
 				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI1.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI1Dead = AI1.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI2.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI2Dead = AI2.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI3.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI3Dead = AI3.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI4.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI4Dead = AI4.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI5.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI5Dead = AI5.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI6.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI6Dead = AI6.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI7.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI7Dead = AI7.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI8.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI8Dead = AI8.isDead();
 				}
 				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI9.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI9Dead = AI9.isDead(); 
 				}
 				if ((inFlight) && (Math.abs(aX-AI10.getAIX()) < 5) && (Math.abs(aY-AI10.getAIY())) < 4 ) {
-					AIHealth-=25;
+					AI10.setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
 					AI10Dead = AI10.isDead();
