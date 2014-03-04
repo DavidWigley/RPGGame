@@ -1,6 +1,6 @@
 /**
  * @author Anthony Foster + David Wigley
- * @music Andrew Zucker
+ * @music Andrew Zucker + Jake Berlandi
  */
 package Game;
 
@@ -120,7 +120,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Color gray;
 	Color yellow;
 	Random generator = new Random();
-	
+	private static final int AI_HEALTH_WIDTH_SCALE = 3;
+	private static int AI_ORIG_HEALTH;
 	public MainGame() {
 		while(!doneEnteringValues) {
 			choice = JOptionPane.showInputDialog(null, "Would you like a sword or bow?");
@@ -162,6 +163,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}
 		}
 		AIHealth*=difficulty;
+		AI_ORIG_HEALTH = AIHealth;
 		int increaseX = 0;
 		int increaseY = 0;
 		while(currentAI<numAI) {
@@ -261,8 +263,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					g.fillRect(900, 40, 100, healthY);
 					g.setColor(Color.red);
 					g.fillRect(900, 40, (healthX/2), healthY);
-					g.setColor(Color.blue);
-					g.fillRect(50, 40, (AIHealth/2), healthY);
 					// draws string health bar. In future may want to make that
 					// an image so it can be bigger
 					g.setColor(Color.black);
@@ -274,50 +274,116 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					if (!AI1Dead){
 						g.setColor(Color.blue);
 						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+						int AI1X = (int) AI1.getAIX();
+						int AI1Y = (int) AI1.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(Color.blue);
+						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 				} else if (currentAI == 2) {
 					if (!AI1Dead) {
 						g.setColor(Color.blue);
 						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+						int AI1X = (int) AI1.getAIX();
+						int AI1Y = (int) AI1.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(Color.blue);
+						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if (!AI2Dead) {
 						g.setColor(orangeRed);
 						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+						int AI2X = (int) AI2.getAIX();
+						int AI2Y = (int) AI2.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(orangeRed);
+						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 				} else if (currentAI == 3) {
 					if (!AI1Dead) {
 						g.setColor(Color.blue);
 						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+						int AI1X = (int) AI1.getAIX();
+						int AI1Y = (int) AI1.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(Color.blue);
+						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if (!AI2Dead) {
 						g.setColor(orangeRed);
 						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+						int AI2X = (int) AI2.getAIX();
+						int AI2Y = (int) AI2.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(orangeRed);
+						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if (!AI3Dead) {
 						g.setColor(cyan);
 						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+						int AI3X = (int) AI3.getAIX();
+						int AI3Y = (int) AI3.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI3X, AI3Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(cyan);
+						g.fillRect(AI3X, AI3Y, (int) AI3.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 				} else if (currentAI == 4) {
 					if (!AI1Dead) {
 						g.setColor(Color.blue);
 						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+						int AI1X = (int) AI1.getAIX();
+						int AI1Y = (int) AI1.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(Color.blue);
+						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if(!AI2Dead) {
 						g.setColor(orangeRed);
 						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
+						int AI2X = (int) AI2.getAIX();
+						int AI2Y = (int) AI2.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(orangeRed);
+						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if (!AI3Dead) {
 						g.setColor(cyan);
 						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
+						int AI3X = (int) AI3.getAIX();
+						int AI3Y = (int) AI3.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI3X, AI3Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(cyan);
+						g.fillRect(AI3X, AI3Y, (int) AI3.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if (!AI4Dead) {
 						g.setColor(darkGold);
 						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
+						int AI4X = (int) AI4.getAIX();
+						int AI4Y = (int) AI4.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI4X, AI4Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(darkGold);
+						g.fillRect(AI4X, AI4Y, (int) AI4.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 				} else if(currentAI ==5) {
 					if (!AI1Dead) {
 						g.setColor(Color.blue);
 						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
+						int AI1X = (int) AI1.getAIX();
+						int AI1Y = (int) AI1.getAIY() - 30;
+						g.setColor(Color.darkGray);
+						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(Color.blue);
+						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}
 					if(!AI2Dead) {
 						g.setColor(orangeRed);
