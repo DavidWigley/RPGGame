@@ -108,7 +108,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int numPlayer;
 	int currentPlayer;
 	AI[] AIObject;
-	boolean[] AIDead;
+	int AIDeadCount = 0;
 	Player[] playerObject;
 	
 	//custom colors
@@ -160,7 +160,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			if (amount < 0) {
 				AIObject = new AI[amount];
 				doneEnteringValues = true;
-				AIDead = new boolean[amount];
 			}else {
 				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
 			}
@@ -252,7 +251,15 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 				
 				//AI
-
+				for (int i = 0; i < AIObject.length; i++) {
+					if (!AIObject[i].isDead()) {
+						g.setColor(Color.blue);
+						g.drawOval((int) AIObject[i].getAIX(), (int) AIObject[i].getAIY(), 20, 20);
+						AIDeadCount = 0;
+					}else{
+						AIDeadCount++;
+					}
+				}
 				// early access banner
 				g.drawImage(earlyAccess, 0, 24, this);
 
@@ -665,7 +672,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}	
 			AIMove();
 			AIDamage();
-			if ((AI1Dead) && (AI2Dead) && (AI3Dead) && (AI4Dead) && (AI5Dead) && (AI6Dead) && (AI7Dead) && (AI8Dead) && (AI9Dead) && (AI10Dead)) {
+			if (AIDeadCount == AIObject.length) {
 				allAIDead = true;
 			}
 			paint();
@@ -682,7 +689,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					AIObject[i].setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
-					AIDead[i] = AIObject[i].isDead();
 				}
 			}
 		}else {
@@ -691,7 +697,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					if ((drawSword) && (cooldown ==0) && (x -AIObject[i].getAIX() <85) && (x-AIObject[i].getAIX() >-1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
 						AIObject[i].setHealth(-50);
 						cooldown = 5;
-						AIDead[i] = AIObject[i].isDead();
 					}
 				}
 			}else {
@@ -699,7 +704,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					if ((drawSword) && (cooldown == 0) && (AIObject[i].getAIX()-x <85) && (AIObject[i].getAIX() - x > -1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
 						AIObject[i].setHealth(-50);
 						cooldown = 5;
-						AIDead[i] = AIObject[i].isDead();
 					}
 				}
 			}
