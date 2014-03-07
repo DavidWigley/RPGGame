@@ -78,16 +78,16 @@ public class AI {
 	}
 	public void move() {
 		if (canMove) {
-		AIVelocityY+= (gravity * 3);
-		AIX+=AIVelocityX;
-		AIY+=AIVelocityY;
-		if (AIY >= 590) {
-			AIGrounded = true;
-			AIVelocityY = 0;
-			AIY = 590;
-		} else {
-			AIGrounded = false;
-		}
+			AIVelocityY+= (gravity * 3);
+			AIX+=AIVelocityX;
+			AIY+=AIVelocityY;
+			if (AIY >= 590) {
+				AIGrounded = true;
+				AIVelocityY = 0;
+				AIY = 590;
+			} else {
+				AIGrounded = false;
+			}
 		}
 	}
 	

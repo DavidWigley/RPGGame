@@ -85,7 +85,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	
 	//UI variables
 	int healthY = 20;
-	int healthX = 200;
+	double healthX = 200;
 	int invX = 600;
 	int invY = 200;
 	private boolean UI = true;
@@ -104,10 +104,12 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private int difficulty = 1;
 	private boolean doneEnteringValues;
 	int cooldown = 0;
-	int numAI;
-	AI AI1,AI2,AI3,AI4,AI5,AI6,AI7,AI8,AI9,AI10;
 	int currentAI=0;
-	
+	int numPlayer;
+	int currentPlayer;
+	AI[] AIObject;
+	boolean[] AIDead;
+	Player[] playerObject;
 	
 	//custom colors
 	Color orangeRed;
@@ -155,9 +157,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		while(!doneEnteringValues){
 			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Max of 10. Note may not work");
 			int amount = Integer.parseInt(choice);
-			if (amount < 0 || amount <= 10) {
-				numAI = amount;
+			if (amount < 0) {
+				AIObject = new AI[amount];
 				doneEnteringValues = true;
+				AIDead = new boolean[amount];
 			}else {
 				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
 			}
@@ -166,52 +169,27 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		AI_ORIG_HEALTH = AIHealth;
 		int increaseX = 0;
 		int increaseY = 0;
-		while(currentAI<numAI) {
-			if (currentAI == 0) {
-				AI1= new AI(AIX, AIY, AIHealth);
-				AI1Dead = false;
-			}else if (currentAI == 1) {
-				AI2 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
-				AI2Dead = false;
-				orangeRed = new Color(238, 64, 0);
-			}else if (currentAI ==2) {
-				AI3 = new AI(AIX + increaseX,AIY + increaseY,AIHealth);
-				AI3Dead = false;
-				lightGreen = new Color(0,238,0);
-			}else if (currentAI == 3) {
-				AI4 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI4Dead = false;
-				zebPurple = new Color(47,11,37);
-			}else if (currentAI == 4) {
-				AI5 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI5Dead = false;
-				cyan = new Color(0,205,205);
-			}else if (currentAI == 5) {
-				AI6 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI6Dead = false;
-				pink = new Color(238,18,137);
-			}else if (currentAI == 6) {
-				AI7 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI7Dead = false;
-				darkGold = new Color(205,149,12);
-			}else if (currentAI == 7) {
-				AI8 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI8Dead = false;
-				steelBlue = new Color(35,107,142);
-			}else if (currentAI == 8) {
-				AI9 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI9Dead = false;
-				gray = new Color(128,128,128);
-			}else if (currentAI == 9) {
-				AI10 = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
-				AI10Dead = false;
-				yellow = new Color(255,255,0);
-			}
-			currentAI++;
+		for(int i=0; i < AIObject.length; i++){
+			AIObject[i] = new AI(AIX + increaseX, AIY + increaseY, AIHealth);
 			increaseX+=generator.nextInt(500) - 249;
 			increaseY-=5;
 		}
-		
+		//not implemented yet have to incorporate link list
+		doneEnteringValues=false;
+		while(!doneEnteringValues){
+			choice = JOptionPane.showInputDialog(null, "1 player or 2 player");
+			int amount = Integer.parseInt(choice);
+			if (amount < 0 || amount <= 2) {
+				numPlayer = amount;
+				playerObject = new Player[amount];
+				doneEnteringValues = true;
+			}else {
+				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
+			}
+		}
+		for(int i=0; i < playerObject.length; i++){
+			playerObject[i] = new Player(x,y,healthX);
+		}
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
@@ -262,311 +240,19 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					// health bar
 					g.fillRect(900, 40, 100, healthY);
 					g.setColor(Color.red);
-					g.fillRect(900, 40, (healthX/2), healthY);
-					// draws string health bar. In future may want to make that
-					// an image so it can be bigger
-					g.setColor(Color.black);
-					g.drawString("Health Bar", 900, 38);
+					for (int i = 0; i < playerObject.length; i++) {
+						int playerX = (int) playerObject[i].getX();
+						int playerY = (int) playerObject[i].getY();
+						g.fillRect(playerX, playerY, (int) (playerObject[i].getHealth()/2) , healthY);
+						// draws string health bar. In future may want to make that
+						// an image so it can be bigger
+						g.setColor(Color.black);
+						g.drawString("Health Bar", playerX, playerY - 30);
+					}
 				}
 				
 				//AI
-				if (currentAI == 1) {
-					if (!AI1Dead){
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-						int AI1X = (int) AI1.getAIX();
-						int AI1Y = (int) AI1.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(Color.blue);
-						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-				} else if (currentAI == 2) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-						int AI1X = (int) AI1.getAIX();
-						int AI1Y = (int) AI1.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(Color.blue);
-						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if (!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-						int AI2X = (int) AI2.getAIX();
-						int AI2Y = (int) AI2.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(orangeRed);
-						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-				} else if (currentAI == 3) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-						int AI1X = (int) AI1.getAIX();
-						int AI1Y = (int) AI1.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(Color.blue);
-						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if (!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-						int AI2X = (int) AI2.getAIX();
-						int AI2Y = (int) AI2.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(orangeRed);
-						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-						int AI3X = (int) AI3.getAIX();
-						int AI3Y = (int) AI3.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI3X, AI3Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(cyan);
-						g.fillRect(AI3X, AI3Y, (int) AI3.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-				} else if (currentAI == 4) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-						int AI1X = (int) AI1.getAIX();
-						int AI1Y = (int) AI1.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(Color.blue);
-						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-						int AI2X = (int) AI2.getAIX();
-						int AI2Y = (int) AI2.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI2X, AI2Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(orangeRed);
-						g.fillRect(AI2X, AI2Y, (int) AI2.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-						int AI3X = (int) AI3.getAIX();
-						int AI3Y = (int) AI3.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI3X, AI3Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(cyan);
-						g.fillRect(AI3X, AI3Y, (int) AI3.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-						int AI4X = (int) AI4.getAIX();
-						int AI4Y = (int) AI4.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI4X, AI4Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(darkGold);
-						g.fillRect(AI4X, AI4Y, (int) AI4.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-				} else if(currentAI ==5) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-						int AI1X = (int) AI1.getAIX();
-						int AI1Y = (int) AI1.getAIY() - 30;
-						g.setColor(Color.darkGray);
-						g.fillRect(AI1X, AI1Y, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
-						g.setColor(Color.blue);
-						g.fillRect(AI1X, AI1Y, (int) AI1.getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-				} else if (currentAI == 6) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-					if(!AI6Dead) {
-						g.setColor(lightGreen);
-						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					}
-				} else if(currentAI == 7) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-					if(!AI6Dead) {
-						g.setColor(lightGreen);
-						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					}
-					if(!AI7Dead) {
-						g.setColor(zebPurple);
-						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					}
-				} else if (currentAI == 8) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-					if(!AI6Dead) {
-						g.setColor(lightGreen);
-						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					}
-					if(!AI7Dead) {
-						g.setColor(zebPurple);
-						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					}
-					if (!AI8Dead) {
-						g.setColor(pink);
-						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
-					}
-				} else if (currentAI == 9) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-					if(!AI6Dead) {
-						g.setColor(lightGreen);
-						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					}
-					if(!AI7Dead) {
-						g.setColor(zebPurple);
-						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					}
-					if (!AI8Dead) {
-						g.setColor(pink);
-						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
-					}
-					if (!AI9Dead) {
-						g.setColor(steelBlue);
-						g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
-					}
-				} else if(currentAI == 10) {
-					if (!AI1Dead) {
-						g.setColor(Color.blue);
-						g.fillOval(Math.round(AI1.getAIX()), Math.round(AI1.getAIY()), 20, 20);
-					}
-					if(!AI2Dead) {
-						g.setColor(orangeRed);
-						g.fillOval(Math.round(AI2.getAIX()), Math.round(AI2.getAIY()), 20, 20);
-					}
-					if (!AI3Dead) {
-						g.setColor(cyan);
-						g.fillOval(Math.round(AI3.getAIX()), Math.round(AI3.getAIY()), 20, 20);
-					}
-					if (!AI4Dead) {
-						g.setColor(darkGold);
-						g.fillOval(Math.round(AI4.getAIX()), Math.round(AI4.getAIY()), 20, 20);
-					}
-					if (!AI5Dead) {
-						g.setColor(gray);
-						g.fillOval(Math.round(AI5.getAIX()), Math.round(AI5.getAIY()), 20, 20);
-					}
-					if(!AI6Dead) {
-						g.setColor(lightGreen);
-						g.fillOval(Math.round(AI6.getAIX()), Math.round(AI6.getAIY()), 20, 20);
-					}
-					if(!AI7Dead) {
-						g.setColor(zebPurple);
-						g.fillOval(Math.round(AI7.getAIX()), Math.round(AI7.getAIY()), 20, 20);
-					}
-					if (!AI8Dead) {
-						g.setColor(pink);
-						g.fillOval(Math.round(AI8.getAIX()), Math.round(AI8.getAIY()), 20, 20);
-					}
-					if (!AI9Dead) {
-						g.setColor(steelBlue);
-						g.fillOval(Math.round(AI9.getAIX()), Math.round(AI9.getAIY()), 20, 20);
-					}
-					if (!AI10Dead) {
-						g.setColor(yellow);
-						g.fillOval(Math.round(AI10.getAIX()), Math.round(AI10.getAIY()), 20, 20);
-					}
-				}
+
 				// early access banner
 				g.drawImage(earlyAccess, 0, 24, this);
 
@@ -588,8 +274,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 				if ((aX >= 1024) || (!drawArrow) || (aX <= 0)) {
 					inFlight = false;
-					aX = x;
-					aY = y;
+					aX = playerObject[0].getX();
+					aY = playerObject[0].getY();
 					currentlyDrawingArrow = 0;
 					drawArrow = false;
 					shouldPlaySound = false;
@@ -600,35 +286,37 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					}
 				}
 			if (attackStyle == 1){
+				int roundedX = Math.round(playerObject[0].getX());
+				int roundedY = Math.round(playerObject[0].getY());
 				if (drawSword) {
 					swordCount++;
 					if (mouseLeft) {
 						if (swordCount < 5) {
-							g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+							g.drawImage(SwordHorizontalL, roundedX - 2, roundedY - 45, this);
 						}
 						else if (swordCount > 5 && swordCount <=15) {
-							g.drawImage(Sword45L,Math.round(x) - 45, Math.round(y) - 30, this);
+							g.drawImage(Sword45L, roundedX - 45, roundedY - 30, this);
 						}else if (swordCount >15 && swordCount<30) {
-							g.drawImage(SwordL, Math.round(x) - 63, Math.round(y), this);	
+							g.drawImage(SwordL, roundedX - 63, roundedY, this);	
 						}
 						else  if  (swordCount >30 || !drawSword){
-							g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+							g.drawImage(SwordHorizontalL, roundedX - 2, roundedY - 45, this);
 							swordCount = 0;	
 						}
 					}else {
 						if (swordCount < 5) {
 							//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
-							g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+							g.drawImage(SwordHorizontalL, roundedX + 20, roundedY - 45,
 									-SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
 						}
 						else if (swordCount > 5 && swordCount <=15) {
-							g.drawImage(Sword45L,Math.round(x) + 80, Math.round(y) - 30,
+							g.drawImage(Sword45L, roundedX + 80, roundedY - 30,
 									-Sword45L.getWidth(this), Sword45L.getHeight(this), this);
 						}else if (swordCount >15 && swordCount<30) {
-							g.drawImage(SwordL, Math.round(x) +90, Math.round(y), -SwordL.getWidth(this), SwordL.getHeight(this), this);	
+							g.drawImage(SwordL, roundedX +90, roundedY, -SwordL.getWidth(this), SwordL.getHeight(this), this);	
 						}
 						else  if  (swordCount >30 || !drawSword){
-							g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+							g.drawImage(SwordHorizontalL, roundedX + 20, roundedY - 45,
 									-SwordHorizontalL.getWidth(this), SwordHorizontalL.getHeight(this), this);
 							swordCount = 0;	
 						}
@@ -636,9 +324,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				}
 				else {
 					if(mouseLeft) {
-						g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, this);
+						g.drawImage(SwordHorizontalL, roundedX - 2, roundedY - 45, this);
 					}else{
-						g.drawImage(SwordHorizontalL, Math.round(x) + 20, Math.round(y) - 45,
+						g.drawImage(SwordHorizontalL, roundedX + 20, roundedY - 45,
 								-SwordHorizontalL.getWidth(this), SwordHorizontalL.getHeight(this), this);
 					}
 					swordCount = 0;
@@ -689,11 +377,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		if (e.getX() > x) {
+		if (e.getX() > playerObject[0].getX()) {
 			mouseLeft = false;
 			mouseRight = true;
 		}
-		if (e.getX() < x) {
+		if (e.getX() < playerObject[0].getX()) {
 			mouseRight = false;
 			mouseLeft = true;
 		}
@@ -724,7 +412,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			wasReleased = false;
 			if (!alreadyShot) {
 				arrowMech();
-				aY = y;
+				aY = playerObject[0].getY();
 			}
 			alreadyShot = true;
 		}
@@ -928,36 +616,28 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 	public void timerTask() {
 		if ((!escape) && (!dead) && (!allAIDead)) {
-			velocityY += gravity;
-			x += velocityX;
-			y += velocityY;
+			//player1.setVelocityY(gravity);
 			
 			// moves left
-			if ((left == true) && (velocityX > -5) && (lastPressed == 2)) {
-				velocityX -= 1;
+			if ((left == true) && (playerObject[0].getVelocityX() > -5) && (lastPressed == 2)) {
+				playerObject[0].setVelocityX(-1);
 			}
 			// moves right
-			if ((right == true) && (velocityX < 5) && (lastPressed == 1)) {
-				velocityX += 1;
+			if ((right == true) && (playerObject[0].getVelocityX() < 5) && (lastPressed == 1)) {
+				playerObject[0].setVelocityX(1);
 			}
-			if ((!right) && (!left) && (isGrounded) && (velocityX > 0)) {
-				velocityX-=.3;
-				if (Math.abs(velocityX) < .29) {
-					velocityX = 0;
+			if ((!right) && (!left) && (playerObject[0].isGrounded()) && (playerObject[0].getVelocityX() > 0)) {
+				playerObject[0].setVelocityX(.3f);
+				if (Math.abs(playerObject[0].getVelocityX()) < .29) {
+					playerObject[0].setVelocityX(0);
 				}
-			} else if ((!right) && (!left) && (isGrounded) && (velocityX < 0)) {
-				velocityX+=.3;
-				if (Math.abs(velocityX) < .29) {
-					velocityX = 0;
+			} else if ((!right) && (!left) && (playerObject[0].isGrounded()) && (playerObject[0].getVelocityX() < 0)) {
+				playerObject[0].setVelocityX(.3f);
+				if (Math.abs(playerObject[0].getVelocityX()) < .29) {
+					playerObject[0].setVelocityX(0);
 				}
 			}
-			if (y >= 590) {
-				isGrounded = true;
-				velocityY = 0;
-				y = 590;
-			} else {
-				isGrounded = false;
-			}
+			playerObject[0].move();
 			if (goingLeft == true) {
 				aX-=7;
 			}
@@ -997,1629 +677,68 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void AIDamage() {
 		if (attackStyle == 2) {
-			if (currentAI == 1) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
+			for(int i = 0; i < AIObject.length; i++) {
+				if ((inFlight) && (Math.abs(aX-AIObject[i].getAIX()) < 5) && (Math.abs(aY-AIObject[i].getAIY())) < 4 ) {
+					AIObject[i].setHealth(-25);
 					drawArrow = false;
 					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-			}
-			
-			else if (currentAI == 2) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-			}
-			
-			else if (currentAI == 3) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-			}
-			
-			else if (currentAI == 4) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-			}
-			
-			else if (currentAI == 5) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-			}
-			
-			else if (currentAI == 6) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AI6.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI6Dead = AI6.isDead();
-				}
-			}
-			
-			else if (currentAI == 7) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AI6.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI6Dead = AI6.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AI7.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI7Dead = AI7.isDead();
-				}
-			}
-			
-			else if (currentAI == 8) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AI6.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI6Dead = AI6.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AI7.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI7Dead = AI7.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AI8.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI8Dead = AI8.isDead();
-				}
-			}
-			
-			else if (currentAI == 9) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AI6.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI6Dead = AI6.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AI7.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI7Dead = AI7.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AI8.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI8Dead = AI8.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
-					AI9.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI9Dead = AI9.isDead();
-				}
-			}
-			
-			else if(currentAI == 10) {
-				if ((inFlight) && (Math.abs(aX-AI1.getAIX()) < 5) && (Math.abs(aY-AI1.getAIY())) < 4 ) {
-					AI1.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI1Dead = AI1.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI2.getAIX()) < 5) && (Math.abs(aY-AI2.getAIY())) < 4 ) {
-					AI2.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI2Dead = AI2.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI3.getAIX()) < 5) && (Math.abs(aY-AI3.getAIY())) < 4 ) {
-					AI3.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI3Dead = AI3.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI4.getAIX()) < 5) && (Math.abs(aY-AI4.getAIY())) < 4 ) {
-					AI4.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI4Dead = AI4.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI5.getAIX()) < 5) && (Math.abs(aY-AI5.getAIY())) < 4 ) {
-					AI5.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI5Dead = AI5.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI6.getAIX()) < 5) && (Math.abs(aY-AI6.getAIY())) < 4 ) {
-					AI6.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI6Dead = AI6.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI7.getAIX()) < 5) && (Math.abs(aY-AI7.getAIY())) < 4 ) {
-					AI7.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI7Dead = AI7.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI8.getAIX()) < 5) && (Math.abs(aY-AI8.getAIY())) < 4 ) {
-					AI8.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI8Dead = AI8.isDead();
-				}
-				if ((inFlight) && (Math.abs(aX-AI9.getAIX()) < 5) && (Math.abs(aY-AI9.getAIY())) < 4 ) {
-					AI9.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI9Dead = AI9.isDead(); 
-				}
-				if ((inFlight) && (Math.abs(aX-AI10.getAIX()) < 5) && (Math.abs(aY-AI10.getAIY())) < 4 ) {
-					AI10.setHealth(-25);
-					drawArrow = false;
-					cooldown = 15;
-					AI10Dead = AI10.isDead();
+					AIDead[i] = AIObject[i].isDead();
 				}
 			}
 		}else {
-
 			if (mouseLeft) {
-				if ((drawSword) && (cooldown ==0) && (x -AI1.getAIX() <85) && (x-AI1.getAIX() >-1) && (y - AI1.getAIY() < 20) && (y-AI1.getAIY()>-5)) {
-					AIHealth-=50;
-					cooldown = 5;
-					AI1Dead = AI1.isDead();
+				for(int i = 0; i < AIObject.length; i++){
+					if ((drawSword) && (cooldown ==0) && (x -AIObject[i].getAIX() <85) && (x-AIObject[i].getAIX() >-1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
+						AIObject[i].setHealth(-50);
+						cooldown = 5;
+						AIDead[i] = AIObject[i].isDead();
+					}
 				}
 			}else {
-				if ((drawSword) && (cooldown == 0) && (AI1.getAIX()-x <85) && (AI1.getAIX() - x > -1) && (y - AI1.getAIY() < 20) && (y-AI1.getAIY()>-5)) {
-					AIHealth-=50;
-					cooldown = 5;
-					AI1Dead = AI1.isDead();
+				for(int i=0; i < AIObject.length; i++){
+					if ((drawSword) && (cooldown == 0) && (AIObject[i].getAIX()-x <85) && (AIObject[i].getAIX() - x > -1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
+						AIObject[i].setHealth(-50);
+						cooldown = 5;
+						AIDead[i] = AIObject[i].isDead();
+					}
 				}
 			}
 		}
-		//checks if AI is close enough to attack with melee
-		if ((Math.abs(AIX - x) <= 10) && Math.abs(AIY - y) <= 3) {
-			healthX -=(.5 * difficulty);
-			if (healthX <= 0) {
-				dead  = true;
+		for(int i=0; i < AIObject.length; i++){
+			//checks if AI is close enough to attack with melee
+			if ((Math.abs(AIObject[i].getAIX() - x) <= 10) && Math.abs(AIObject[i].getAIY() - y) <= 3) {
+				healthX -=(.5 * difficulty);
+				if (healthX <= 0) {
+					dead  = true;
+				}
 			}
 		}
 	}
 	public void AIMove() {
-		if (currentAI == 1) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
+		for(int i = 0; i < AIObject.length; i ++){
+			if ((AIObject[i].getAIX() > x) && (AIObject[i].getAIVelocityX() >-4)) {
+				if(Math.abs(AIObject[i].getAIX() - x) <= 10) {
+					AIObject[i].setAIVelocityX(0);
 				}
 				else {
-					AI1.setAIVelocityX(-.7f);
+					AIObject[i].setAIVelocityX(-.7f);
 				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
+			}else if ((AIObject[i].getAIX() < x) && (AIObject[i].getAIVelocityX() < 4)) {
+				if(Math.abs(AIObject[i].getAIX() - x) <= 10) {
+					AIObject[i].setAIVelocityX(0);
 				}
 				else {
-					AI1.setAIVelocityX(.7f);
+					AIObject[i].setAIVelocityX(.7f);
 				}
 			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
+			if ((AIObject[i].getAIY() > y) && (isGrounded)) {
+				if (AIObject[i].isAIGrounded()) {
 					System.out.println("trying to move AI1YV");
-					AI1.setAIVelocityY(-.5f);
+					AIObject[i].setAIVelocityY(-.5f);
 				}
 			}
-			AI1.move();
+			AIObject[i].move();
 		} 
-		
-		else if (currentAI == 2) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-
-		}
-		
-		else if (currentAI == 3) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-		}
-		
-		else if(currentAI == 4){
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-		}
-		
-		else if (currentAI == 5) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-		}
-		
-		else if (currentAI == 6) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-			
-			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(-.7f);
-				}
-			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI6.getAIY() > y) && (isGrounded)) {
-				if (AI6.isAIGrounded()) {
-					AI6.setAIVelocityY(-.5f);
-				}
-			}
-			AI6.move();
-		}
-		
-		else if (currentAI == 7) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-			
-			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(-.7f);
-				}
-			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI6.getAIY() > y) && (isGrounded)) {
-				if (AI6.isAIGrounded()) {
-					AI6.setAIVelocityY(-.5f);
-				}
-			}
-			AI6.move();
-			
-			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(-.7f);
-				}
-			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI7.getAIY() > y) && (isGrounded)) {
-				if (AI7.isAIGrounded()) {
-					AI7.setAIVelocityY(-.5f);
-				}
-			}
-			AI7.move();
-		}
-		
-		else if (currentAI == 8) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-			
-			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(-.7f);
-				}
-			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI6.getAIY() > y) && (isGrounded)) {
-				if (AI6.isAIGrounded()) {
-					AI6.setAIVelocityY(-.5f);
-				}
-			}
-			AI6.move();
-			
-			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(-.7f);
-				}
-			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI7.getAIY() > y) && (isGrounded)) {
-				if (AI7.isAIGrounded()) {
-					AI7.setAIVelocityY(-.5f);
-				}
-			}
-			AI7.move();
-			
-			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(-.7f);
-				}
-			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI8.getAIY() > y) && (isGrounded)) {
-				if (AI8.isAIGrounded()) {
-					AI8.setAIVelocityY(-.5f);
-				}
-			}
-			AI8.move();
-		}
-		
-		else if (currentAI == 9) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-			
-			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(-.7f);
-				}
-			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI6.getAIY() > y) && (isGrounded)) {
-				if (AI6.isAIGrounded()) {
-					AI6.setAIVelocityY(-.5f);
-				}
-			}
-			AI6.move();
-			
-			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(-.7f);
-				}
-			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI7.getAIY() > y) && (isGrounded)) {
-				if (AI7.isAIGrounded()) {
-					AI7.setAIVelocityY(-.5f);
-				}
-			}
-			AI7.move();
-			
-			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(-.7f);
-				}
-			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI8.getAIY() > y) && (isGrounded)) {
-				if (AI8.isAIGrounded()) {
-					AI8.setAIVelocityY(-.5f);
-				}
-			}
-			AI8.move();
-			
-			if ((AI9.getAIX() > x) && (AI9.getAIVelocityX() >-4)) {
-				if(Math.abs(AI9.getAIX() - x) <= 10) {
-					AI9.setAIVelocityX(0);
-				}
-				else {
-					AI9.setAIVelocityX(-.7f);
-				}
-			}else if ((AI9.getAIX() < x) && (AI9.getAIVelocityX() < 4)) {
-				if(Math.abs(AI9.getAIX() - x) <= 10) {
-					AI9.setAIVelocityX(0);
-				}
-				else {
-					AI9.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI9.getAIY() > y) && (isGrounded)) {
-				if (AI9.isAIGrounded()) {
-					AI9.setAIVelocityY(-.5f);
-				}
-			}
-			AI9.move();
-		}
-		
-		else if (currentAI == 10) {
-			if ((AI1.getAIX() > x) && (AI1.getAIVelocityX() >-4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(-.7f);
-				}
-			}else if ((AI1.getAIX() < x) && (AI1.getAIVelocityX() < 4)) {
-				if(Math.abs(AI1.getAIX() - x) <= 10) {
-					AI1.setAIVelocityX(0);
-				}
-				else {
-					AI1.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI1.getAIY() > y) && (isGrounded)) {
-				if (AI1.isAIGrounded()) {
-					AI1.setAIVelocityY(-.5f);
-				}
-			}
-			AI1.move();
-			
-			if ((AI2.getAIX() > x) && (AI2.getAIVelocityX() >-4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(-.7f);
-				}
-			}else if ((AI2.getAIX() < x) && (AI2.getAIVelocityX() < 4)) {
-				if(Math.abs(AI2.getAIX() - x) <= 10) {
-					AI2.setAIVelocityX(0);
-				}
-				else {
-					AI2.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI2.getAIY() > y) && (isGrounded)) {
-				if (AI2.isAIGrounded()) {
-					AI2.setAIVelocityY(-.5f);
-				}
-			}
-			AI2.move();
-			
-
-			if ((AI3.getAIX() > x) && (AI3.getAIVelocityX() >-4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(-.7f);
-				}
-			}else if ((AI3.getAIX() < x) && (AI3.getAIVelocityX() < 4)) {
-				if(Math.abs(AI3.getAIX() - x) <= 10) {
-					AI3.setAIVelocityX(0);
-				}
-				else {
-					AI3.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI3.getAIY() > y) && (isGrounded)) {
-				if (AI3.isAIGrounded()) {
-					AI3.setAIVelocityY(-.5f);
-				}
-			}
-			AI3.move();
-			
-			if ((AI4.getAIX() > x) && (AI4.getAIVelocityX() >-4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(-.7f);
-				}
-			}else if ((AI4.getAIX() < x) && (AI4.getAIVelocityX() < 4)) {
-				if(Math.abs(AI4.getAIX() - x) <= 10) {
-					AI4.setAIVelocityX(0);
-				}
-				else {
-					AI4.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI4.getAIY() > y) && (isGrounded)) {
-				if (AI4.isAIGrounded()) {
-					AI4.setAIVelocityY(-.5f);
-				}
-			}
-			AI4.move();
-			
-			if ((AI5.getAIX() > x) && (AI5.getAIVelocityX() >-4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(-.7f);
-				}
-			}else if ((AI5.getAIX() < x) && (AI5.getAIVelocityX() < 4)) {
-				if(Math.abs(AI5.getAIX() - x) <= 10) {
-					AI5.setAIVelocityX(0);
-				}
-				else {
-					AI5.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI5.getAIY() > y) && (isGrounded)) {
-				if (AI5.isAIGrounded()) {
-					AI5.setAIVelocityY(-.5f);
-				}
-			}
-			AI5.move();
-			
-			if ((AI6.getAIX() > x) && (AI6.getAIVelocityX() >-4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(-.7f);
-				}
-			}else if ((AI6.getAIX() < x) && (AI6.getAIVelocityX() < 4)) {
-				if(Math.abs(AI6.getAIX() - x) <= 10) {
-					AI6.setAIVelocityX(0);
-				}
-				else {
-					AI6.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI6.getAIY() > y) && (isGrounded)) {
-				if (AI6.isAIGrounded()) {
-					AI6.setAIVelocityY(-.5f);
-				}
-			}
-			AI6.move();
-			
-			if ((AI7.getAIX() > x) && (AI7.getAIVelocityX() >-4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(-.7f);
-				}
-			}else if ((AI7.getAIX() < x) && (AI7.getAIVelocityX() < 4)) {
-				if(Math.abs(AI7.getAIX() - x) <= 10) {
-					AI7.setAIVelocityX(0);
-				}
-				else {
-					AI7.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI7.getAIY() > y) && (isGrounded)) {
-				if (AI7.isAIGrounded()) {
-					AI7.setAIVelocityY(-.5f);
-				}
-			}
-			AI7.move();
-			
-			if ((AI8.getAIX() > x) && (AI8.getAIVelocityX() >-4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(-.7f);
-				}
-			}else if ((AI8.getAIX() < x) && (AI8.getAIVelocityX() < 4)) {
-				if(Math.abs(AI8.getAIX() - x) <= 10) {
-					AI8.setAIVelocityX(0);
-				}
-				else {
-					AI8.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI8.getAIY() > y) && (isGrounded)) {
-				if (AI8.isAIGrounded()) {
-					AI8.setAIVelocityY(-.5f);
-				}
-			}
-			AI8.move();
-			
-			if ((AI9.getAIX() > x) && (AI9.getAIVelocityX() >-4)) {
-				if(Math.abs(AI9.getAIX() - x) <= 10) {
-					AI9.setAIVelocityX(0);
-				}
-				else {
-					AI9.setAIVelocityX(-.7f);
-				}
-			}else if ((AI9.getAIX() < x) && (AI9.getAIVelocityX() < 4)) {
-				if(Math.abs(AI9.getAIX() - x) <= 10) {
-					AI9.setAIVelocityX(0);
-				}
-				else {
-					AI9.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI9.getAIY() > y) && (isGrounded)) {
-				if (AI9.isAIGrounded()) {
-					AI9.setAIVelocityY(-.5f);
-				}
-			}
-			AI9.move();
-			
-			if ((AI10.getAIX() > x) && (AI10.getAIVelocityX() >-4)) {
-				if(Math.abs(AI10.getAIX() - x) <= 10) {
-					AI10.setAIVelocityX(0);
-				}
-				else {
-					AI10.setAIVelocityX(-.7f);
-				}
-			}else if ((AI10.getAIX() < x) && (AI10.getAIVelocityX() < 4)) {
-				if(Math.abs(AI10.getAIX() - x) <= 10) {
-					AI10.setAIVelocityX(0);
-				}
-				else {
-					AI10.setAIVelocityX(.7f);
-				}
-			}
-			if ((AI10.getAIY() > y) && (isGrounded)) {
-				if (AI10.isAIGrounded()) {
-					AI10.setAIVelocityY(-.5f);
-				}
-			}
-			AI10.move();
-		}
 	}
 }
 //FIN
