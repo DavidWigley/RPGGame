@@ -155,13 +155,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		doneEnteringValues=false;
 		while(!doneEnteringValues){
-			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Max of 10. Note may not work");
+			choice = JOptionPane.showInputDialog(null, "How many AI do you want.");
 			int amount = Integer.parseInt(choice);
 			if (amount > 0) {
 				AIObject = new AI[amount];
 				doneEnteringValues = true;
 			}else {
-				JOptionPane.showMessageDialog(null, "Must be greater than 0 and less than 10 for this build");
+				JOptionPane.showMessageDialog(null, "Must be greater than 0.");
 			}
 		}
 		AIHealth*=difficulty;
