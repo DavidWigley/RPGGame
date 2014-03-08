@@ -1,5 +1,7 @@
 package Game;
 
+import java.awt.Color;
+
 
 public class AI {
 
@@ -13,6 +15,7 @@ public class AI {
 	private static final float gravity = 0.2f;
 	private boolean AIGrounded;
 	private boolean canMove = true;
+	private Color color = null;
 	
 	public AI(float x, float y, double health) {
 		AIX = x;
@@ -24,7 +27,12 @@ public class AI {
 		AIY = defaultY;
 		AIHealth = defaultHealth;
 	}
-	
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
 	public boolean isAIGrounded() {
 		return AIGrounded;
 	}

@@ -97,8 +97,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	float AIX = x + 300;
 	float AIY = y + 5;
 	int AIHealth = 200;
-	boolean AI1Dead = true, AI2Dead = true, AI3Dead = true, AI4Dead = true, AI5Dead = true,AI6Dead = true,
-			AI7Dead = true, AI8Dead = true, AI9Dead = true, AI10Dead = true;
 	boolean allAIDead;
 	String choice;
 	private int difficulty = 1;
@@ -110,17 +108,19 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	AI[] AIObject;
 	int AIDeadCount = 0;
 	Player[] playerObject;
+	private static final float DAMAGE_AMOUNT = .6f;
 	
 	//custom colors
-	Color orangeRed;
-	Color lightGreen;
-	Color zebPurple;
-	Color cyan;
-	Color pink;
-	Color darkGold;
-	Color steelBlue;
-	Color gray;
-	Color yellow;
+	Color orangeRed= new Color(238, 64, 0);
+	Color lightGreen = new Color(0,238,0);
+	Color zebPurple = new Color(47,11,37);
+	Color cyan = new Color(0,205,205);
+	Color pink = new Color(238,18,137);
+	Color darkGold = new Color(205,149,12);
+	Color steelBlue = new Color(35,107,142);
+	Color gray = new Color(128,128,128);
+	Color yellow = new Color(255,255,0);
+	
 	Random generator = new Random();
 	private static final int AI_HEALTH_WIDTH_SCALE = 3;
 	private static int AI_ORIG_HEALTH;
@@ -157,7 +157,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		while(!doneEnteringValues){
 			choice = JOptionPane.showInputDialog(null, "How many AI do you want. Max of 10. Note may not work");
 			int amount = Integer.parseInt(choice);
-			if (amount < 0) {
+			if (amount > 0) {
 				AIObject = new AI[amount];
 				doneEnteringValues = true;
 			}else {
@@ -176,7 +176,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		//not implemented yet have to incorporate link list
 		doneEnteringValues=false;
 		while(!doneEnteringValues){
-			choice = JOptionPane.showInputDialog(null, "1 player or 2 player");
+			choice = JOptionPane.showInputDialog(null, "1 player or 2 player. 2 Player does not work as of 3/7/14.");
 			int amount = Integer.parseInt(choice);
 			if (amount < 0 || amount <= 2) {
 				numPlayer = amount;
@@ -231,31 +231,67 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			g.clearRect(0, 0, 1024, 768);
 			if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
-				g.setColor(Color.red);
-				g.fillOval(Math.round(x), Math.round(y), 20, 20);
 				// toggles UI
 				if (UI) {
-					g.setColor(Color.darkGray);
-					// health bar
-					g.fillRect(900, 40, 100, healthY);
-					g.setColor(Color.red);
 					for (int i = 0; i < playerObject.length; i++) {
 						int playerX = (int) playerObject[i].getX();
 						int playerY = (int) playerObject[i].getY();
-						g.fillRect(playerX, playerY, (int) (playerObject[i].getHealth()/2) , healthY);
-						// draws string health bar. In future may want to make that
-						// an image so it can be bigger
-						g.setColor(Color.black);
-						g.drawString("Health Bar", playerX, playerY - 30);
+						g.setColor(Color.darkGray);
+						// health bar
+						g.fillRect(playerX, playerY - 30, 100, healthY);
+						g.setColor(Color.red);
+						g.fillOval(playerX, playerY, 20, 20);
+						g.fillRect(playerX, playerY - 30, (int) (playerObject[i].getHealth()/2) , healthY);
 					}
 				}
 				
 				//AI
 				for (int i = 0; i < AIObject.length; i++) {
 					if (!AIObject[i].isDead()) {
-						g.setColor(Color.blue);
-						g.drawOval((int) AIObject[i].getAIX(), (int) AIObject[i].getAIY(), 20, 20);
+						int AIRoundedX = (int) AIObject[i].getAIX();
+						int AIRoundedY = (int) AIObject[i].getAIY();
+						if (AIObject[i].getColor() == null) {
+							int choice = generator.nextInt(10) + 1;
+							if (choice == 1) {
+								g.setColor(Color.blue);
+								AIObject[i].setColor(Color.blue);
+							}else if (choice == 2) {
+								g.setColor(lightGreen);
+								AIObject[i].setColor(lightGreen);
+							}else if (choice == 3){
+								g.setColor(zebPurple);
+								AIObject[i].setColor(zebPurple);
+							}else if (choice == 4) {
+								g.setColor(cyan);
+								AIObject[i].setColor(cyan);
+							}else if (choice == 5){
+								g.setColor(pink);
+								AIObject[i].setColor(pink);
+							}else if (choice == 6) {
+								g.setColor(darkGold);
+								AIObject[i].setColor(darkGold);
+							}else if (choice == 7){
+								g.setColor(steelBlue);
+								AIObject[i].setColor(steelBlue);
+							}else if (choice ==8) {
+								g.setColor(gray);
+								AIObject[i].setColor(gray);
+							} else if (choice == 9) {
+								g.setColor(orangeRed);
+								AIObject[i].setColor(orangeRed);
+							} else {
+								g.setColor(yellow);
+								AIObject[i].setColor(yellow);
+							}
+						} else {
+							g.setColor(AIObject[i].getColor());
+						}
+						g.fillOval(AIRoundedX, AIRoundedY, 20, 20);
 						AIDeadCount = 0;
+						g.setColor(Color.darkGray);
+						g.fillRect(AIRoundedX, AIRoundedY - 40, AI_ORIG_HEALTH/AI_HEALTH_WIDTH_SCALE, healthY);
+						g.setColor(AIObject[i].getColor());
+						g.fillRect(AIRoundedX, AIRoundedY - 40, (int) AIObject[i].getAIHealth()/AI_HEALTH_WIDTH_SCALE, healthY);
 					}else{
 						AIDeadCount++;
 					}
@@ -624,27 +660,28 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	public void timerTask() {
 		if ((!escape) && (!dead) && (!allAIDead)) {
 			//player1.setVelocityY(gravity);
-			
-			// moves left
-			if ((left == true) && (playerObject[0].getVelocityX() > -5) && (lastPressed == 2)) {
-				playerObject[0].setVelocityX(-1);
-			}
-			// moves right
-			if ((right == true) && (playerObject[0].getVelocityX() < 5) && (lastPressed == 1)) {
-				playerObject[0].setVelocityX(1);
-			}
-			if ((!right) && (!left) && (playerObject[0].isGrounded()) && (playerObject[0].getVelocityX() > 0)) {
-				playerObject[0].setVelocityX(.3f);
-				if (Math.abs(playerObject[0].getVelocityX()) < .29) {
-					playerObject[0].setVelocityX(0);
+			for (int i=0; i < playerObject.length; i++) {	
+				// moves left
+				if ((left == true) && (playerObject[i].getVelocityX() > -5) && (lastPressed == 2)) {
+					playerObject[i].setVelocityX(-1);
 				}
-			} else if ((!right) && (!left) && (playerObject[0].isGrounded()) && (playerObject[0].getVelocityX() < 0)) {
-				playerObject[0].setVelocityX(.3f);
-				if (Math.abs(playerObject[0].getVelocityX()) < .29) {
-					playerObject[0].setVelocityX(0);
+				// moves right
+				if ((right == true) && (playerObject[i].getVelocityX() < 5) && (lastPressed == 1)) {
+					playerObject[i].setVelocityX(1);
 				}
+				if ((!right) && (!left) && (playerObject[i].isGrounded()) && (playerObject[i].getVelocityX() > 0)) {
+					playerObject[i].setVelocityX(-.3f);
+					if (Math.abs(playerObject[i].getVelocityX()) < .29) {
+						playerObject[i].setVelocityX(0);
+					}
+				} else if ((!right) && (!left) && (playerObject[i].isGrounded()) && (playerObject[i].getVelocityX() < 0)) {
+					playerObject[i].setVelocityX(.3f);
+					if (Math.abs(playerObject[i].getVelocityX()) < .29) {
+						playerObject[i].setVelocityX(0);
+					}
+				}
+				playerObject[i].move();
 			}
-			playerObject[0].move();
 			if (goingLeft == true) {
 				aX-=7;
 			}
@@ -710,39 +747,42 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		for(int i=0; i < AIObject.length; i++){
 			//checks if AI is close enough to attack with melee
-			if ((Math.abs(AIObject[i].getAIX() - x) <= 10) && Math.abs(AIObject[i].getAIY() - y) <= 3) {
-				healthX -=(.5 * difficulty);
-				if (healthX <= 0) {
-					dead  = true;
+			for (int j = 0; j < playerObject.length; j++) {
+				if ((Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) && (Math.abs(AIObject[i].getAIY() - playerObject[j].getY())) <= 3) {
+					playerObject[j].setHealth(DAMAGE_AMOUNT * difficulty);
+					if (playerObject[j].getHealth() <= 0) {
+						dead  = true;
+					}
 				}
 			}
 		}
 	}
 	public void AIMove() {
 		for(int i = 0; i < AIObject.length; i ++){
-			if ((AIObject[i].getAIX() > x) && (AIObject[i].getAIVelocityX() >-4)) {
-				if(Math.abs(AIObject[i].getAIX() - x) <= 10) {
-					AIObject[i].setAIVelocityX(0);
+			for(int j = 0; j < playerObject.length; j++) {
+				if ((AIObject[i].getAIX() > playerObject[j].getX()) && (AIObject[i].getAIVelocityX() >-4)) {
+					if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
+						AIObject[i].setAIVelocityX(0);
+					}
+					else {
+						AIObject[i].setAIVelocityX(-.7f);
+					}
+				}else if ((AIObject[i].getAIX() < playerObject[j].getX()) && (AIObject[i].getAIVelocityX() < 4)) {
+					if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
+						AIObject[i].setAIVelocityX(0);
+					}
+					else {
+						AIObject[i].setAIVelocityX(.7f);
+					}
 				}
-				else {
-					AIObject[i].setAIVelocityX(-.7f);
+				if ((AIObject[i].getAIY() > playerObject[j].getX()) && (playerObject[j].isGrounded())) {
+					if (AIObject[i].isAIGrounded()) {
+						AIObject[i].setAIVelocityY(-.5f);
+					}
 				}
-			}else if ((AIObject[i].getAIX() < x) && (AIObject[i].getAIVelocityX() < 4)) {
-				if(Math.abs(AIObject[i].getAIX() - x) <= 10) {
-					AIObject[i].setAIVelocityX(0);
-				}
-				else {
-					AIObject[i].setAIVelocityX(.7f);
-				}
+				AIObject[i].move();
 			}
-			if ((AIObject[i].getAIY() > y) && (isGrounded)) {
-				if (AIObject[i].isAIGrounded()) {
-					System.out.println("trying to move AI1YV");
-					AIObject[i].setAIVelocityY(-.5f);
-				}
-			}
-			AIObject[i].move();
-		} 
+		}
 	}
 }
 //FIN

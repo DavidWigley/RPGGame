@@ -9,7 +9,7 @@ public class Player {
 	private static final double DEFAULT_HEALTH = 200.0;
 	private float velocityX = 0;
 	private float velocityY = 0;
-	private boolean canMove;
+	private boolean canMove = true;
 	private static final float gravity = 0.2f;
 	private boolean grounded;
 	
@@ -55,7 +55,7 @@ public class Player {
 		if (amount != 0) {
 			velocityY+=amount;
 		}else{
-			velocityX=0;
+			velocityY=0;
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class Player {
 	}
 	
 	public void setHealth(double damage) {
-		health = health-=damage;
+		health -=damage;
 	}
 	
 	public float getX() {
