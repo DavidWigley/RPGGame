@@ -137,6 +137,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				JOptionPane.showMessageDialog(null, "You did not enter bow or sword");
 			}
 		}
+		
 		doneEnteringValues = false;
 		while (!doneEnteringValues) {
 			choice = JOptionPane.showInputDialog(null, "Easy, medium, or hard?");
