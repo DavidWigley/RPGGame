@@ -1,6 +1,9 @@
 /**
  * @author Anthony Foster + David Wigley
+<<<<<<< HEAD
  * @music Andrew Zucker + Jake Berlandi
+=======
+>>>>>>> branch 'master' of https://github.com/DavidWigley/RPGGame.git
  */
 package Game;
 
@@ -16,7 +19,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -26,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import Game.StartUp;
-
 @SuppressWarnings("serial")
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
 	StartUp base = new StartUp();
@@ -190,6 +191,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		for(int i=0; i < playerObject.length; i++){
 			playerObject[i] = new Player(x,y,healthX);
 		}
+
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
 		base.frame.setMinimumSize(new Dimension(1024, 768));
@@ -221,7 +223,12 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Paint method. Handles drawing for the game.
+=======
+	 * Paint method. Handles all drawing functions
+	 * 
+>>>>>>> branch 'master' of https://github.com/DavidWigley/RPGGame.git
 	 */
 	public void paint() {
 		BufferStrategy bf = base.frame.getBufferStrategy();
@@ -610,8 +617,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 		}
 	}
-
-
 	public void arrowMech() {
 		if ((mouseLeft == true)) {
 			fireLeft = true;
@@ -622,7 +627,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			fireLeft = false;
 		}
 	}
-
 
 	public void stopMusic() {
 		backgroundMusic.stop();
@@ -682,6 +686,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					}
 				}
 				playerObject[i].move();
+			}
+			if (y >= 590) {
+				isGrounded = true;
+				velocityY = 0;
+				y = 590;
+			} else {
+				isGrounded = false;
 			}
 			if (goingLeft == true) {
 				aX-=7;
