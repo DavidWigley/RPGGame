@@ -102,9 +102,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private int difficulty = 1;
 	private boolean doneEnteringValues;
 	int cooldown = 0;
-	int currentAI=0;
-	int numPlayer;
-	int currentPlayer;
 	AI[] AIObject;
 	int AIDeadCount = 0;
 	Player[] playerObject;
@@ -179,7 +176,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			choice = JOptionPane.showInputDialog(null, "1 player or 2 player. 2 Player does not work as of 3/7/14.");
 			int amount = Integer.parseInt(choice);
 			if (amount < 0 || amount <= 2) {
-				numPlayer = amount;
 				playerObject = new Player[amount];
 				doneEnteringValues = true;
 			}else {
