@@ -223,12 +223,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Paint method. Handles drawing for the game.
-=======
 	 * Paint method. Handles all drawing functions
 	 * 
->>>>>>> branch 'master' of https://github.com/DavidWigley/RPGGame.git
 	 */
 	public void paint() {
 		BufferStrategy bf = base.frame.getBufferStrategy();
@@ -718,7 +714,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}	
 			AIMove();
 			AIDamage();
-			if (AIDeadCount == AIObject.length) {
+			if (AIDeadCount >= AIObject.length) {
 				allAIDead = true;
 			}
 			paint();
