@@ -497,11 +497,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		// up arrow
 		if (e.getKeyCode() == 38 || e.getKeyCode() == 87) {
-			//up = true;
-			//upPressed = true;
-			//down = false;
-			if (isGrounded) {
-				velocityY = -8;
+			//checks if grounded if it is then it allows you to jump
+			if (playerObject[0].isGrounded()) {
+				playerObject[0].setVelocityY(-12);
 			}
 			
 		}
@@ -537,8 +535,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		// up arrow
 		if (e.getKeyCode() == 38 || e.getKeyCode() == 87) {
-			//up = false;
-			//upPressed = false;
+			
 		}
 		// right arrow
 		if (e.getKeyCode() == 39 || e.getKeyCode() == 68) {
