@@ -50,6 +50,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image Sword45L = sword45LIcon.getImage();
 	ImageIcon swordLIcon = new ImageIcon(getClass().getResource("/resources/sword l.png"));
 	Image SwordL = swordLIcon.getImage();
+	ImageIcon playButtonIcon = new ImageIcon(getClass().getResource("/resources/play_button.png"));
+	Image playButton = playButtonIcon.getImage();
 	
 	
 	//music variables
@@ -89,8 +91,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	double healthX = 200;
 	int invX = 600;
 	int invY = 200;
-	private boolean UI = true;
 	private boolean escape, escapePushed;
+	byte gameState = 1;
+	boolean canChangeState = false;
+	boolean changeState = false;
+	private static final int playButtonWidth = 200;
+	private static final int playButtonLength = 80;
+	private static final int playButtonX = 150;
+	private static final int playButtonY = 100;
 
 	
 	//AI variables
@@ -204,7 +212,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
 		try {
-			startBackgroundMusic();
+			//startBackgroundMusic();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -233,22 +241,20 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		try {
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
-			if ((!escape) && (!dead) &&(!allAIDead)) {
+			if (gameState == 1) {
+				g.drawImage(playButton, playButtonX, playButtonY, playButtonWidth, playButtonLength, this);				
+			}else if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
-				// toggles UI
-				if (UI) {
-					for (int i = 0; i < playerObject.length; i++) {
-						int playerX = (int) playerObject[i].getX();
-						int playerY = (int) playerObject[i].getY();
-						g.setColor(Color.darkGray);
-						// health bar
-						g.fillRect(playerX, playerY - 30, 100, healthY);
-						g.setColor(Color.red);
-						g.fillOval(playerX, playerY, 20, 20);
-						g.fillRect(playerX, playerY - 30, (int) (playerObject[i].getHealth()/2) , healthY);
-					}
+				for (int i = 0; i < playerObject.length; i++) {
+					int playerX = (int) playerObject[i].getX();
+					int playerY = (int) playerObject[i].getY();
+					g.setColor(Color.darkGray);
+					// health bar
+					g.fillRect(playerX, playerY - 30, 100, healthY);
+					g.setColor(Color.red);
+					g.fillOval(playerX, playerY, 20, 20);
+					g.fillRect(playerX, playerY - 30, (int) (playerObject[i].getHealth()/2) , healthY);
 				}
-				
 				//AI
 				for (int i = 0; i < AIObject.length; i++) {
 					if (!AIObject[i].isDead()) {
@@ -382,8 +388,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					lClick = false;
 				}
 			}
-			}
-			if (escape) {
+			}else if (escape) {
 				g.setColor(Color.white);
 				g.drawRect(0, 0, 1024, 768);
 				g.setColor(Color.black);
@@ -432,6 +437,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			mouseRight = false;
 			mouseLeft = true;
 		}
+		if (gameState == 1) {
+			if (e.getX() >150 && e.getX() < 350 && e.getY() > 100 && e.getY() < 180) {
+				canChangeState = true;
+			}else {
+				canChangeState = false;
+			}
+		}
+
 
 	}
 
@@ -457,6 +470,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		if ((SwingUtilities.isLeftMouseButton(click))) {
 			lClick = true;
 			wasReleased = false;
+			if ((gameState == 1) && canChangeState) {
+				changeState = true;
+			}
 			if (!alreadyShot) {
 				arrowMech();
 				aY = playerObject[0].getY();
@@ -466,7 +482,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		else if (SwingUtilities.isRightMouseButton(click)) {
 			rClick = true;
 		}
-
 	}
 
 	/**
@@ -538,15 +553,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			right = false;
 			if (left) {
 				lastPressed = 2;
-			}
-		}
-
-		// toggle UI
-		if (e.getKeyCode() == 112) {
-			if (UI) {
-				UI = false;
-			} else if (!UI) {
-				UI = true;
 			}
 		}
 		if ((e.getKeyCode() == 27)  && (escapePushed)) {
@@ -656,7 +662,12 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void timerTask() {
-		if ((!escape) && (!dead) && (!allAIDead)) {
+		paint();
+		if (gameState == 1) {
+			if (changeState) {
+				gameState =2;
+			}
+		}else if ((!escape) && (!dead) && (!allAIDead)) {
 			//player1.setVelocityY(gravity);
 			for (int i=0; i < playerObject.length; i++) {	
 				// moves left
