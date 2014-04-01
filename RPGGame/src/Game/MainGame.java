@@ -1,9 +1,6 @@
 /**
  * @author Anthony Foster + David Wigley
-<<<<<<< HEAD
  * @music Andrew Zucker + Jake Berlandi
-=======
->>>>>>> branch 'master' of https://github.com/DavidWigley/RPGGame.git
  */
 package Game;
 
@@ -53,7 +50,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	ImageIcon playButtonIcon = new ImageIcon(getClass().getResource("/resources/play_button.png"));
 	Image playButton = playButtonIcon.getImage();
 	ImageIcon ArrowIcon = new ImageIcon(getClass().getResource("/resources/leftarrow.png"));
-	Image Arrow = playButtonIcon.getImage();
+	Image Arrow = ArrowIcon.getImage();
 	
 	//music variables
 	AudioInputStream attackIn;
@@ -95,7 +92,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private boolean escape, escapePushed;
 	
 	//variables incorporating main menu
-	int gameState = 1;
+	int gameState = 3;
 	boolean canPlay = false;
 	boolean play = false;
 	boolean canStart;
@@ -125,7 +122,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 //	private static final int backButtonYDown;
 	
 	//arrows
-	private static final int arrowWidth = 50;
+	private static final int arrowWidth = 150;
 	private static final int arrowHeight = 80;
 	private static final int arrowX = 256;
 	private static final int arrow2X = 768;
@@ -137,7 +134,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private static final int arrowYUp = arrowY;
 	private static final int arrowYDown = arrowY + arrowHeight;
 	
-//	//start Button
+	//start Button
 //	private static final int startButtonWidth;
 //	private static final int startButtonLength;
 //	private static final int startButtonX;
