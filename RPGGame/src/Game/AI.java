@@ -104,4 +104,5 @@ public class AI {
 		AIX = -1000;
 		AIY = -1000;
 	}
+
 }

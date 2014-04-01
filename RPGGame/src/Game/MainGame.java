@@ -52,7 +52,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image SwordL = swordLIcon.getImage();
 	ImageIcon playButtonIcon = new ImageIcon(getClass().getResource("/resources/play_button.png"));
 	Image playButton = playButtonIcon.getImage();
-	
+	ImageIcon ArrowIcon = new ImageIcon(getClass().getResource("/resources/leftarrow.png"));
+	Image Arrow = playButtonIcon.getImage();
 	
 	//music variables
 	AudioInputStream attackIn;
@@ -92,14 +93,59 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int invX = 600;
 	int invY = 200;
 	private boolean escape, escapePushed;
-	byte gameState = 1;
-	boolean canChangeState = false;
-	boolean changeState = false;
+	
+	//variables incorporating main menu
+	int gameState = 1;
+	boolean canPlay = false;
+	boolean play = false;
+	boolean canStart;
+	boolean start;
+	boolean canIncrease;
+	boolean canDecrease;
+	boolean increase;
+	boolean decrease;
+	//play Button
 	private static final int playButtonWidth = 200;
-	private static final int playButtonLength = 80;
+	private static final int playButtonHeight = 80;
 	private static final int playButtonX = 150;
 	private static final int playButtonY = 100;
+	private static final int playButtonXLeft = playButtonX;
+	private static final int playButtonXRight = playButtonX + playButtonWidth;
+	private static final int playButtonYUp = playButtonY;
+	private static final int playButtonYDown = playButtonY + playButtonHeight;
 
+	//back Button
+//	private static final int backButtonWidth;
+//	private static final int backButtonLength;
+//	private static final int backButtonX;
+//	private static final int backButtonY;
+//	private static final int backButtonXLeft;
+//	private static final int backButtonXRight;
+//	private static final int backButtonYUp;
+//	private static final int backButtonYDown;
+	
+	//arrows
+	private static final int arrowWidth = 50;
+	private static final int arrowHeight = 80;
+	private static final int arrowX = 256;
+	private static final int arrow2X = 768;
+	private static final int arrowY = 600;
+	private static final int arrowXLeft = arrowX;
+	private static final int arrowXRight = arrowX + arrowWidth;
+	private static final int arrow2XLeft = arrow2X;
+	private static final int arrow2XRight = arrow2X + arrowWidth;
+	private static final int arrowYUp = arrowY;
+	private static final int arrowYDown = arrowY + arrowHeight;
+	
+//	//start Button
+//	private static final int startButtonWidth;
+//	private static final int startButtonLength;
+//	private static final int startButtonX;
+//	private static final int startButtonY;
+//	private static final int startButtonXLeft;
+//	private static final int startButtonXRight;
+//	private static final int startButtonYUp;
+//	private static final int startButtonYDown;
 	
 	//AI variables
 	float AIVelocityX, AIVelocityY;
@@ -130,7 +176,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Color gray = new Color(128,128,128);
 	Color yellow = new Color(255,255,0);
 	
-	Random generator = new Random();
+	Random generator = new Random();;
 	private static final int AI_HEALTH_WIDTH_SCALE = 3;
 	private static int AI_ORIG_HEALTH;
 	public MainGame() {
@@ -220,14 +266,37 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 	public void run() {
 		long currentTime = System.nanoTime();
-		// setup timer task
-
-		while (isRunning) {
-			if (System.nanoTime() - currentTime >= 6500000) {
-				timerTask();
-				currentTime = System.nanoTime();
+		//main menu
+		while (gameState == 1) {
+			updateState();
+		}
+		//playing
+		while (gameState == 2) {
+			while (isRunning) {
+				if (System.nanoTime() - currentTime >= 6500000) {
+					timerTask();
+					currentTime = System.nanoTime();
+				}
 			}
 		}
+		//options
+		while (gameState == 3) {
+			options();
+		}
+	}
+	
+	public void updateState() {
+
+		if (gameState == 1) {
+			if (play) {
+				gameState =2;
+			}
+		}
+		paint();
+	}
+	
+	public void options() {
+		paint();
 	}
 
 	/**
@@ -242,8 +311,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
 			if (gameState == 1) {
-				g.drawImage(playButton, playButtonX, playButtonY, playButtonWidth, playButtonLength, this);				
-			}else if ((!escape) && (!dead) &&(!allAIDead)) {
+				g.drawImage(playButton, playButtonX, playButtonY, playButtonWidth, playButtonHeight, this);				
+			}else if (gameState == 3){
+				g.drawImage(Arrow, arrowX, arrowY, arrowWidth, arrowHeight, this);
+				g.drawImage(Arrow, arrow2X, arrowY, -arrowWidth, arrowHeight, this);
+				
+			}
+			else if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
 				for (int i = 0; i < playerObject.length; i++) {
 					int playerX = (int) playerObject[i].getX();
@@ -261,38 +335,12 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 						int AIRoundedX = (int) AIObject[i].getAIX();
 						int AIRoundedY = (int) AIObject[i].getAIY();
 						if (AIObject[i].getColor() == null) {
-							int choice = generator.nextInt(10) + 1;
-							if (choice == 1) {
-								g.setColor(Color.blue);
-								AIObject[i].setColor(Color.blue);
-							}else if (choice == 2) {
-								g.setColor(lightGreen);
-								AIObject[i].setColor(lightGreen);
-							}else if (choice == 3){
-								g.setColor(zebPurple);
-								AIObject[i].setColor(zebPurple);
-							}else if (choice == 4) {
-								g.setColor(cyan);
-								AIObject[i].setColor(cyan);
-							}else if (choice == 5){
-								g.setColor(pink);
-								AIObject[i].setColor(pink);
-							}else if (choice == 6) {
-								g.setColor(darkGold);
-								AIObject[i].setColor(darkGold);
-							}else if (choice == 7){
-								g.setColor(steelBlue);
-								AIObject[i].setColor(steelBlue);
-							}else if (choice ==8) {
-								g.setColor(gray);
-								AIObject[i].setColor(gray);
-							} else if (choice == 9) {
-								g.setColor(orangeRed);
-								AIObject[i].setColor(orangeRed);
-							} else {
-								g.setColor(yellow);
-								AIObject[i].setColor(yellow);
-							}
+							int red = generator.nextInt(256);
+							int green = generator.nextInt(256);
+							int blue = generator.nextInt(256);
+							Color newColor = new Color(red,green,blue);
+							g.setColor(newColor);
+							AIObject[i].setColor(newColor);
 						} else {
 							g.setColor(AIObject[i].getColor());
 						}
@@ -437,14 +485,30 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			mouseRight = false;
 			mouseLeft = true;
 		}
-		if (gameState == 1) {
-			if (e.getX() >150 && e.getX() < 350 && e.getY() > 100 && e.getY() < 180) {
-				canChangeState = true;
+		if (gameState == 2) {
+			
+		}
+		//main menu
+		else if (gameState == 1) {
+			if (e.getX() >playButtonXLeft && e.getX() < playButtonXRight && e.getY() > playButtonYUp && e.getY() < playButtonYDown) {
+				canPlay = true;
 			}else {
-				canChangeState = false;
+				canPlay = false;
 			}
 		}
-
+		//options
+		else if (gameState == 3) {
+			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
+				canDecrease = true;
+			}else {
+				canDecrease = false;
+			}
+			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
+				canIncrease = true;
+			}else {
+				canIncrease = false;
+			}
+		}
 
 	}
 
@@ -470,8 +534,17 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		if ((SwingUtilities.isLeftMouseButton(click))) {
 			lClick = true;
 			wasReleased = false;
-			if ((gameState == 1) && canChangeState) {
-				changeState = true;
+			if(gameState == 2){
+				
+			}
+			else if ((gameState == 1) && canPlay) {
+				play = true;
+			}else if (gameState == 3 && (canStart)) {
+				start = true;
+			}else if (gameState ==3 && (canIncrease)) {
+				increase = true;
+			}else if (gameState == 3 && (canDecrease)) {
+				decrease = false;
 			}
 			if (!alreadyShot) {
 				arrowMech();
@@ -662,12 +735,16 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void timerTask() {
-		paint();
-		if (gameState == 1) {
-			if (changeState) {
-				gameState =2;
-			}
-		}else if ((!escape) && (!dead) && (!allAIDead)) {
+		if (AIDeadCount >= AIObject.length) {
+			allAIDead = true;
+			paint();
+		} else if (dead) {
+			paint();
+		} else if(escape) {
+			paint();
+		}
+		//if ((!escape) && (!dead) && (!allAIDead))
+		else {
 			//player1.setVelocityY(gravity);
 			for (int i=0; i < playerObject.length; i++) {	
 				// moves left
@@ -725,9 +802,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			}	
 			AIMove();
 			AIDamage();
-			if (AIDeadCount >= AIObject.length) {
-				allAIDead = true;
-			}
 			paint();
 		}
 	}
