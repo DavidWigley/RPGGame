@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public class StartUp {
 	//setting up object
 	private static MainGame game = new MainGame();
-	public JFrame frame = new JFrame("Game");
+	public JFrame frame = new JFrame("Fun(ish) Game");
 	
 	
 	public static void main(String[] args) {

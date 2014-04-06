@@ -51,6 +51,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image playButton = playButtonIcon.getImage();
 	ImageIcon ArrowIcon = new ImageIcon(getClass().getResource("/resources/leftarrow.png"));
 	Image Arrow = ArrowIcon.getImage();
+	ImageIcon EasyIcon = new ImageIcon(getClass().getResource("/resources/easy.png"));
+	Image Easy = EasyIcon.getImage();
+	ImageIcon NormalIcon = new ImageIcon(getClass().getResource("/resources/normal.png"));
+	Image Normal = NormalIcon.getImage();
+	ImageIcon HardIcon = new ImageIcon(getClass().getResource("/resources/hard.png"));
+	Image Hard = HardIcon.getImage();
+	
 	
 	//music variables
 	AudioInputStream attackIn;
@@ -97,10 +104,17 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	boolean play = false;
 	boolean canStart;
 	boolean start;
-	boolean canIncrease;
-	boolean canDecrease;
-	boolean increase;
-	boolean decrease;
+	
+	//options logic choices
+	private boolean canIncreaseWeapon;
+	private boolean canDecreaseWeapon;
+	private boolean increaseWeapon;
+	private boolean decreaseWeapon;
+	private boolean canIncreaseDifficulty;
+	private boolean canDecreaseDifficulty;
+	private boolean increaseDifficulty;
+	private boolean decreaseDifficulty;
+	
 	//play Button
 	private static final int playButtonWidth = 200;
 	private static final int playButtonHeight = 80;
@@ -129,10 +143,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private static final int arrowY = 600;
 	private static final int arrowXLeft = arrowX;
 	private static final int arrowXRight = arrowX + arrowWidth;
-	private static final int arrow2XLeft = arrow2X;
-	private static final int arrow2XRight = arrow2X + arrowWidth;
+	private static final int arrow2XLeft = arrow2X - arrowWidth;
+	private static final int arrow2XRight = arrow2X;
 	private static final int arrowYUp = arrowY;
 	private static final int arrowYDown = arrowY + arrowHeight;
+	private static final int arrowY2ndRow = (arrowY - arrowHeight) - 50;
+	private static final int arrowY3rdRow = (arrowY2ndRow - arrowHeight) - 50;
+	private static final int arrowY2ndRowDown = arrowY2ndRow + arrowHeight;
+	private static final int arrowY3rdRowDown = arrowY3rdRow + arrowHeight;
 	
 	//start Button
 //	private static final int startButtonWidth;
@@ -161,17 +179,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int AIDeadCount = 0;
 	Player[] playerObject;
 	private static final float DAMAGE_AMOUNT = .6f;
-	
-	//custom colors
-	Color orangeRed= new Color(238, 64, 0);
-	Color lightGreen = new Color(0,238,0);
-	Color zebPurple = new Color(47,11,37);
-	Color cyan = new Color(0,205,205);
-	Color pink = new Color(238,18,137);
-	Color darkGold = new Color(205,149,12);
-	Color steelBlue = new Color(35,107,142);
-	Color gray = new Color(128,128,128);
-	Color yellow = new Color(255,255,0);
 	
 	Random generator = new Random();;
 	private static final int AI_HEALTH_WIDTH_SCALE = 3;
@@ -293,7 +300,36 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 	
 	public void options() {
+		if (decreaseWeapon || increaseWeapon) {
+			if (getAttackStyle() == 1) {
+				attackStyle = 2;
+			}else{
+				attackStyle = 1;
+			}
+			decreaseWeapon = false;
+			increaseWeapon = false;
+		} else if (increaseDifficulty) {
+			//easy
+			if (getDifficulty() == 1) {
+				difficulty = 2;
+			}else {
+				difficulty = 3;
+			}
+		} else if (decreaseDifficulty) {
+			if (getDifficulty() == 3) {
+				difficulty = 2;
+			}else {
+				difficulty = 1;
+			}
+		}
 		paint();
+	}
+	public int getDifficulty() {
+		return difficulty;
+	}
+	
+	public int getAttackStyle() {
+		return attackStyle;
 	}
 
 	/**
@@ -310,8 +346,29 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			if (gameState == 1) {
 				g.drawImage(playButton, playButtonX, playButtonY, playButtonWidth, playButtonHeight, this);				
 			}else if (gameState == 3){
+				int weaponPosX = ((arrow2X-arrowX) /2) + arrowX - 20;
+				int weaponPosY = arrowY - 15;
 				g.drawImage(Arrow, arrowX, arrowY, arrowWidth, arrowHeight, this);
 				g.drawImage(Arrow, arrow2X, arrowY, -arrowWidth, arrowHeight, this);
+				g.drawImage(Arrow, arrowX, arrowY2ndRow, arrowWidth, arrowHeight, this);
+				g.drawImage(Arrow, arrow2X, arrowY2ndRow, -arrowWidth, arrowHeight, this);
+				
+				g.setColor(Color.black);
+				g.drawString("Weapon", weaponPosX, weaponPosY);
+				g.drawString("Difficulty", weaponPosX, (arrowY2ndRow - 15));
+				if (getDifficulty() == 1){
+					g.drawImage(Easy, weaponPosX, (arrowY2ndRow - 15), (arrow2X - arrowX) - 280, arrowHeight, this);
+				}else if (getDifficulty() == 2) {
+					g.drawImage(Normal, weaponPosX, (arrowY2ndRow - 15), (arrow2X - arrowX) - 280, arrowHeight, this);
+				}else {
+					g.drawImage(Hard, weaponPosX, (arrowY2ndRow - 15), (arrow2X - arrowX) - 280, arrowHeight, this);
+				}
+				if (getAttackStyle() == 2) {
+					g.drawImage(Arrowr, weaponPosX -85, weaponPosY + 15, (arrow2X - arrowX) - 280, arrowHeight, this);
+				}else {
+					//due to the sword using all of the x positions the width is slightly different
+					g.drawImage(SwordL, weaponPosX -85, weaponPosY + 15, (arrow2X - arrowX) - 300, arrowHeight, this);
+				}
 				
 			}
 			else if ((!escape) && (!dead) &&(!allAIDead)) {
@@ -496,14 +553,26 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		//options
 		else if (gameState == 3) {
 			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
-				canDecrease = true;
+				canDecreaseWeapon = true;
 			}else {
-				canDecrease = false;
+				canDecreaseWeapon = false;
 			}
 			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
-				canIncrease = true;
+				canIncreaseWeapon = true;
 			}else {
-				canIncrease = false;
+				canIncreaseWeapon = false;
+			}
+			
+			
+			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowY2ndRow && e.getY() < arrowY2ndRowDown) {
+				canDecreaseDifficulty = true;
+			}else {
+				canDecreaseDifficulty = false;
+			}
+			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowY2ndRow && e.getY() < arrowY2ndRowDown) {
+				canIncreaseDifficulty = true;
+			}else {
+				canIncreaseDifficulty = false;
 			}
 		}
 
@@ -538,10 +607,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				play = true;
 			}else if (gameState == 3 && (canStart)) {
 				start = true;
-			}else if (gameState ==3 && (canIncrease)) {
-				increase = true;
-			}else if (gameState == 3 && (canDecrease)) {
-				decrease = false;
+			}else if (gameState ==3 && (canIncreaseWeapon)) {
+				increaseWeapon = true;
+			}else if (gameState == 3 && (canDecreaseWeapon)) {
+				decreaseWeapon = true;
+			}else if (gameState == 3 && canIncreaseDifficulty) {
+				increaseDifficulty = true;
+			}else if (gameState == 3 && canDecreaseDifficulty) {
+				decreaseDifficulty = true;
 			}
 			if (!alreadyShot) {
 				arrowMech();
