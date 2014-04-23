@@ -7,6 +7,7 @@ package Game;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 import Game.StartUp;
 @SuppressWarnings("serial")
 public class MainGame extends Canvas implements Runnable, KeyListener,MouseListener, MouseMotionListener {
@@ -114,6 +117,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private boolean canDecreaseDifficulty;
 	private boolean increaseDifficulty;
 	private boolean decreaseDifficulty;
+	private boolean canIncreaseAI;
+	private boolean canDecreaseAI;
+	private boolean increaseAI;
+	private boolean decreaseAI;
 	
 	//play Button
 	private static final int playButtonWidth = 200;
@@ -163,7 +170,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 //	private static final int startButtonXRight;
 //	private static final int startButtonYUp;
 //	private static final int startButtonYDown;
-	
+	//Font
+	Font normal = new Font("Serif", Font.PLAIN, 12);
+	Font numbers = new Font("Serif", Font.BOLD, 100);
 	long currentTime;
 	
 	//AI variables
@@ -180,6 +189,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int numPlayer;
 	int currentPlayer;
 	AI[] AIObject;
+	private int AINum = 0;
 	int AIDeadCount = 0;
 	Player[] playerObject;
 	private static final float DAMAGE_AMOUNT = .6f;
@@ -330,6 +340,12 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				difficulty = 1;
 			}
 			decreaseDifficulty = false;
+		} else if (increaseAI) {
+			AINum++;
+			increaseAI = false;
+		} else if (decreaseAI && (AINum > 0)) {
+			AINum--;
+			decreaseAI = false;
 		}
 		paint();
 	}
@@ -348,10 +364,10 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	public void paint() {
 		BufferStrategy bf = base.frame.getBufferStrategy();
 		// g = null;
-
 		try {
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
+			g.setFont(normal);
 			if (gameState == 1) {
 				g.drawImage(playButton, playButtonX, playButtonY, playButtonWidth, playButtonHeight, this);				
 			}else if (gameState == 3){
@@ -361,10 +377,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				g.drawImage(Arrow, arrow2X, arrowY, -arrowWidth, arrowHeight, this);
 				g.drawImage(Arrow, arrowX, arrowY2ndRow, arrowWidth, arrowHeight, this);
 				g.drawImage(Arrow, arrow2X, arrowY2ndRow, -arrowWidth, arrowHeight, this);
+				g.drawImage(Arrow, arrowX, arrowY3rdRow, arrowWidth, arrowHeight, this);
+				g.drawImage(Arrow, arrow2X, arrowY3rdRow, -arrowWidth, arrowHeight, this);
 				
 				g.setColor(Color.black);
 				g.drawString("Weapon", weaponPosX, weaponPosY);
 				g.drawString("Difficulty", weaponPosX, (arrowY2ndRow - 15));
+				g.drawString("Number of AI", weaponPosX, (arrowY3rdRow - 15));
+				
 				if (getDifficulty() == 1){
 					g.drawImage(Easy, difficultyXPos, arrowY2ndRow, difficultyWidth , arrowHeight, this);
 				}else if (getDifficulty() == 2) {
@@ -378,7 +398,20 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					//due to the sword using all of the x positions the width is slightly different
 					g.drawImage(SwordL, weaponPosX -85, weaponPosY + 15, (arrow2X - arrowX) - 300, arrowHeight, this);
 				}
+				int AIXPos = weaponPosX;
+				if (AINum >= 10 && AINum<100) {
+					AIXPos -=25;
+				} else if (AINum >= 100 && AINum < 1000) {
+					//the reason why this grows but 40 instead of an additional 20 is because we are not storing the varaible
+					//of current position anywhere so we just add another 20 onto the decrease
+					AIXPos-=50;
+				} else if (AINum >= 1000) {
+					AIXPos-=75;
+				}
+				g.setFont(numbers);
+				String currentNum = Integer.toString(AINum);
 				
+				g.drawString(currentNum, AIXPos, arrowY3rdRow + 72);
 			}
 			else if ((!escape) && (!dead) &&(!allAIDead)) {
 				g.drawImage(picture, 0, 0, base.frame.getWidth(), base.frame.getHeight(), this);
@@ -561,27 +594,41 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		//options
 		else if (gameState == 3) {
-			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
+			//effficiency idea:
+			//check left side. else if right side else clear them both. Should save some CPU cycles
+			
+			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && (e.getY() > arrowYUp) && (e.getY() < arrowYDown)) {
 				canDecreaseWeapon = true;
 			}else {
 				canDecreaseWeapon = false;
 			}
-			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowYUp && e.getY() < arrowYDown) {
+			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && (e.getY() > arrowYUp) && (e.getY() < arrowYDown)) {
 				canIncreaseWeapon = true;
 			}else {
 				canIncreaseWeapon = false;
 			}
 			
 			
-			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowY2ndRow && e.getY() < arrowY2ndRowDown) {
+			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && (e.getY() > arrowY2ndRow) && (e.getY() < arrowY2ndRowDown)) {
 				canDecreaseDifficulty = true;
 			}else {
 				canDecreaseDifficulty = false;
 			}
-			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowY2ndRow && e.getY() < arrowY2ndRowDown) {
+			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && (e.getY() > arrowY2ndRow) && (e.getY() < arrowY2ndRowDown)) {
 				canIncreaseDifficulty = true;
 			}else {
 				canIncreaseDifficulty = false;
+			}
+			
+			if (e.getX() > arrowXLeft && e.getX() < arrowXRight && e.getY() > arrowY3rdRow && e.getY() < arrowY3rdRowDown) {
+				canDecreaseAI = true;
+			} else {
+				canDecreaseAI = false;
+			}
+			if (e.getX() > arrow2XLeft && e.getX() < arrow2XRight && e.getY() > arrowY3rdRow && e.getY() < arrowY3rdRowDown) {
+				canIncreaseAI = true;
+			} else {
+				canIncreaseAI = false;
 			}
 		}
 
@@ -589,25 +636,28 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 	public void mouseClicked(MouseEvent click) {
 		if (click.getButton() == 1) {
-			System.out.println("CLICK");
-			if(gameState == 2){
-				
+			if(gameState == 2){	
 			}
-			else if ((gameState == 1) && canPlay) {
-				play = true;
-			}else if (gameState == 3 && (canStart)) {
-				start = true;
-			}else if (gameState ==3 && (canIncreaseWeapon)) {
-				increaseWeapon = true;
-			}else if (gameState == 3 && (canDecreaseWeapon)) {
-				decreaseWeapon = true;
-			}else if (gameState == 3 && canIncreaseDifficulty) {
-				increaseDifficulty = true;
-			}else if (gameState == 3 && canDecreaseDifficulty) {
-				decreaseDifficulty = true;
+			else if (gameState == 3) {	
+				if (canPlay) {
+					play = true;
+				}else if (canStart) {
+					start = true;
+				}else if (canIncreaseWeapon) {
+					increaseWeapon = true;
+				}else if (canDecreaseWeapon) {
+					decreaseWeapon = true;
+				}else if (canIncreaseDifficulty) {
+					increaseDifficulty = true;
+				}else if (canDecreaseDifficulty) {
+					decreaseDifficulty = true;
+				}else if (canDecreaseAI) {
+					decreaseAI = true;
+				}else if (canIncreaseAI) {
+					increaseAI = true;
+				}
 			}
 		}
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
