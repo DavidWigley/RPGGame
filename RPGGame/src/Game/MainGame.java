@@ -63,6 +63,9 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 
 	//music variables
+	AudioInputStream buttonIn;
+	Clip buttonSound;
+	boolean playButtonSound;
 	AudioInputStream attackIn;
 	Clip attackClip;
 	AudioInputStream backgroundGame;
@@ -211,11 +214,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		base.frame.setVisible(true);
 		base.frame.createBufferStrategy(bufNum);
 		base.frame.setIconImage(frameIcon);
-		try {
-			//startBackgroundMusic();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void run() {
@@ -230,6 +228,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 		//playing
 		while (gameState == 2) {
+			try {
+				startBackgroundMusic();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			while (isRunning) {
 				if (System.nanoTime() - currentTime >= 6500000) {
 					timerTask();
@@ -623,6 +626,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void mouseClicked(MouseEvent click) {
 		if (click.getButton() == 1 && (gameState == 3)) {
+			try {
+				startButtonSound();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			if (canPlay) {
 				play = true;
 			}else if (canStart) {
@@ -645,6 +653,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}else if (gameState == 1) {
 			if (canPlayOptions) {
 				playOptions = true;
+			}
+			try {
+				startButtonSound();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -823,6 +836,20 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	public void stopMusic() {
 		backgroundMusic.stop();
 	}
+	public void stopButton() {
+		buttonSound.stop();
+	}
+	public void startButtonSound() throws Exception {
+		buttonIn = AudioSystem.getAudioInputStream(getClass().getResource(
+				"/resources/buttonSound.wav"));
+		buttonSound = AudioSystem.getClip();
+		try {
+			buttonSound.open(buttonIn);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		buttonSound.start();
+	}
 
 	public void attackSound() throws Exception {
 		if (attackStyle == 1) {
@@ -863,7 +890,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		} else if(escape) {
 			paint();
 		}
-		//if ((!escape) && (!dead) && (!allAIDead))
 		else {
 			//player1.setVelocityY(gravity);
 			for (int i=0; i < playerObject.length; i++) {	
