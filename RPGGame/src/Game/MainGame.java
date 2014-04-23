@@ -219,7 +219,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void run() {
-		System.out.println("current state " + gameState);
 		long currentTime = System.nanoTime();
 		//main menu
 		while (gameState == 1) {
@@ -230,14 +229,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			options();
 		}
 		//playing
-				while (gameState == 2) {
-					while (isRunning) {
-						if (System.nanoTime() - currentTime >= 6500000) {
-							timerTask();
-							currentTime = System.nanoTime();
-						}
-					}
+		while (gameState == 2) {
+			while (isRunning) {
+				if (System.nanoTime() - currentTime >= 6500000) {
+					timerTask();
+					currentTime = System.nanoTime();
 				}
+			}
+		}
 	}
 
 	public void updateState() {
@@ -296,7 +295,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 
 
 	public void initialize() {
-		System.out.println("running init");
 		AIObject = new AI[AINum];
 		AIHealth*=difficulty;
 		AI_ORIG_HEALTH = AIHealth;
@@ -311,7 +309,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			playerObject[i] = new Player(x,y,healthX);
 		}
 		gameState = 2;
-		System.out.println("end of init");
 	}
 	public int getDifficulty() {
 		return difficulty;
@@ -858,8 +855,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void timerTask() {
-		System.out.println("Running timer task");
-		System.out.println(playerObject[0].getX());
 		if (AIDeadCount >= AIObject.length) {
 			allAIDead = true;
 			paint();
