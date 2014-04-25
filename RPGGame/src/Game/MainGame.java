@@ -24,7 +24,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import Game.StartUp;
@@ -60,6 +59,8 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Image Normal = NormalIcon.getImage();
 	ImageIcon HardIcon = new ImageIcon(getClass().getResource("/resources/hard_new.jpg"));
 	Image Hard = HardIcon.getImage();
+	ImageIcon ShieldIcon = new ImageIcon(getClass().getResource("/resources/shield.png"));
+	Image shieldImage = ShieldIcon.getImage();
 
 
 	//music variables
@@ -181,6 +182,17 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	private static final int difficultyXPos = ((arrow2X-arrowX) /2) + arrowX - 105;
 	private static final int difficultyWidth = (arrow2X - arrowX) - 300;
 
+	//image constants
+	private final int swordHorizontalLWidth = (int) SwordHorizontalL.getWidth(this);
+	private final int swordHorizontalLHeight = (int) SwordHorizontalL.getHeight(this);
+	private final int swordLWidth = (int) SwordL.getWidth(this);
+	private final int swordLHeight = (int) SwordL.getHeight(this);
+	private final int sword45LWidth = (int) Sword45L.getWidth(this);
+	private final int sword45LHeight = (int) Sword45L.getHeight(this);
+	private final int shieldWidth = (int) shieldImage.getWidth(this);
+	private final int shieldHeight = (int) shieldImage.getHeight(this);
+	private final double shieldScaleFactor = .75;
+	private final int scaledShieldHeight = (int) (shieldHeight * shieldScaleFactor);
 	//Font
 	Font normal = new Font("Serif", Font.PLAIN, 12);
 	Font numbers = new Font("Serif", Font.BOLD, 100);
@@ -306,7 +318,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			AIObject[i] = new AI(AIX + increaseX, AIY, AIHealth);
 			increaseX+=generator.nextInt(500) - 249;
 		}
-		//not implemented yet have to incorporate link list
+		//not implemented yet have to redo some logic
 		playerObject = new Player[currentPlayer];
 		for(int i=0; i < playerObject.length; i++){
 			playerObject[i] = new Player(x,y,healthX);
@@ -327,7 +339,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	 */
 	public void paint() {
 		BufferStrategy bf = base.frame.getBufferStrategy();
-		// g = null;
 		try {
 			g = bf.getDrawGraphics();
 			g.clearRect(0, 0, 1024, 768);
@@ -371,7 +382,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				if (AINum >= 10 && AINum<100) {
 					AIXPos -=25;
 				} else if (AINum >= 100 && AINum < 1000) {
-					//the reason why this grows but 40 instead of an additional 20 is because we are not storing the varaible
+					//the reason why this grows by 40 instead of an additional 20 is because we are not storing the variable
 					//of current position anywhere so we just add another 20 onto the decrease
 					AIXPos-=50;
 				} else if (AINum >= 1000) {
@@ -424,36 +435,38 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 					// early access banner
 					g.drawImage(earlyAccess, 0, 24, this);
 
-					if ((drawArrow == true) && (attackStyle == 2)) {
-						inFlight = true;
-						shouldPlaySound = true;
-						if ((fireLeft) && (currentlyDrawingArrow != 2)) {
-							goingLeft = true;
-							goingRight = false;
-							currentlyDrawingArrow = 1;
-							g.drawImage(Arrowl, Math.round(aX), Math.round(aY), this);
+					if (attackStyle == 2) {
+						if (drawArrow == true) {
+							inFlight = true;
+							shouldPlaySound = true;
+							if ((fireLeft) && (currentlyDrawingArrow != 2)) {
+								goingLeft = true;
+								goingRight = false;
+								currentlyDrawingArrow = 1;
+								g.drawImage(Arrowl, Math.round(aX), Math.round(aY), this);
 
-						} else if ((fireRight) && (currentlyDrawingArrow != 1)) {
-							goingRight = true;
-							goingLeft = false;
-							currentlyDrawingArrow = 2;
-							g.drawImage(Arrowr, Math.round(aX), Math.round(aY), this);
+							} else if ((fireRight) && (currentlyDrawingArrow != 1)) {
+								goingRight = true;
+								goingLeft = false;
+								currentlyDrawingArrow = 2;
+								g.drawImage(Arrowr, Math.round(aX), Math.round(aY), this);
+							}
+						}
+						if ((aX >= 1024) || (!drawArrow) || (aX <= 0)) {
+							inFlight = false;
+							aX = playerObject[0].getX();
+							aY = playerObject[0].getY();
+							currentlyDrawingArrow = 0;
+							drawArrow = false;
+							shouldPlaySound = false;
+							notPlayingSound = false;
+							alreadyShot = false;
+							if (wasReleased) {
+								lClick = false;
+							}
 						}
 					}
-					if ((aX >= 1024) || (!drawArrow) || (aX <= 0)) {
-						inFlight = false;
-						aX = playerObject[0].getX();
-						aY = playerObject[0].getY();
-						currentlyDrawingArrow = 0;
-						drawArrow = false;
-						shouldPlaySound = false;
-						notPlayingSound = false;
-						alreadyShot = false;
-						if (wasReleased) {
-							lClick = false;
-						}
-					}
-					if (attackStyle == 1){
+					else {
 						int roundedX = Math.round(playerObject[0].getX());
 						int roundedY = Math.round(playerObject[0].getY());
 						if (drawSword) {
@@ -475,19 +488,25 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 								if (swordCount < 5) {
 									//image flip g.drawImage(SwordHorizontalL, Math.round(x) - 2, Math.round(y) - 45, -SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
 									g.drawImage(SwordHorizontalL, roundedX + 20, roundedY - 45,
-											-SwordHorizontalL.getWidth(this),SwordHorizontalL.getHeight(this),this);
+											-swordHorizontalLWidth,swordHorizontalLWidth,this);
 								}
 								else if (swordCount > 5 && swordCount <=15) {
 									g.drawImage(Sword45L, roundedX + 80, roundedY - 30,
-											-Sword45L.getWidth(this), Sword45L.getHeight(this), this);
+											-sword45LWidth, sword45LHeight, this);
 								}else if (swordCount >15 && swordCount<30) {
-									g.drawImage(SwordL, roundedX +90, roundedY, -SwordL.getWidth(this), SwordL.getHeight(this), this);	
+									g.drawImage(SwordL, roundedX +90, roundedY, -swordLWidth, swordLHeight, this);	
 								}
 								else  if  (swordCount >30 || !drawSword){
 									g.drawImage(SwordHorizontalL, roundedX + 20, roundedY - 45,
-											-SwordHorizontalL.getWidth(this), SwordHorizontalL.getHeight(this), this);
+											-swordHorizontalLWidth, swordHorizontalLHeight, this);
 									swordCount = 0;	
 								}
+							}
+						} else if (shield) {
+							if (mouseLeft) {
+								g.drawImage(shieldImage, roundedX - 5, roundedY - 5, shieldWidth, scaledShieldHeight, this);
+							} else {
+								g.drawImage(shieldImage, roundedX + 5, roundedY - 5, shieldWidth, scaledShieldHeight, this);
 							}
 						}
 						else {
@@ -540,7 +559,15 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void mouseDragged(MouseEvent e) {
-
+		if(gameState == 2) {
+			if (e.getX() > playerObject[0].getX()) {
+				mouseLeft = false;
+				mouseRight = true;
+			} else if (e.getX() < playerObject[0].getX()) {
+				mouseLeft = true;
+				mouseRight = false;
+			}
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -549,7 +576,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				mouseLeft = false;
 				mouseRight = true;
 			}
-			if (e.getX() < playerObject[0].getX()) {
+			else if (e.getX() < playerObject[0].getX()) {
 				mouseRight = false;
 				mouseLeft = true;
 			}	
@@ -780,21 +807,18 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		//so doesnt work
 		if (lClick == true) {
 			drawSword = true;
+			rClick=false;
 		} else{
 			drawSword = false;
 		}
 
 		if (rClick == true) {
 			// block
-			if (shield == true) {
-
-			}
-			// reg attack will be copy pasted in here
-			else {
-
-			}
+			shield = true;
 		}
-
+		else {
+			shield = false;
+		}
 	}
 
 	/**
@@ -809,19 +833,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}
 	}
 
-	/**
-	 * Magic attack style
-	 */
-	public void magic() {
-		// mage primary hand
-		if (lClick == true) {
-
-		}
-		// mage offhand
-		if (rClick == true) {
-
-		}
-	}
 	public void arrowMech() {
 		if ((mouseLeft == true)) {
 			fireLeft = true;
@@ -933,8 +944,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				melee();
 			} else if (attackStyle == 2) {
 				range();
-			} else {
-				magic();
 			}
 			if ((shouldPlaySound) && (!notPlayingSound)) {
 				try {
@@ -984,7 +993,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		for(int i=0; i < AIObject.length; i++){
 			//checks if AI is close enough to attack with melee
 			for (int j = 0; j < playerObject.length; j++) {
-				if ((Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) && (Math.abs(AIObject[i].getAIY() - playerObject[j].getY())) <= 3) {
+				if ((!shield) && (Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) && (Math.abs(AIObject[i].getAIY() - playerObject[j].getY())) <= 3) {
 					playerObject[j].setHealth(DAMAGE_AMOUNT * difficulty);
 					if (playerObject[j].getHealth() <= 0) {
 						dead  = true;
