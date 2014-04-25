@@ -74,7 +74,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	boolean notPlayingSound, shouldPlaySound;
 
 	//player variables
-	int attackStyle;
+	int attackStyle = 1;
 	float gravity = 0.2f, x = 350, y = 590, velocityX, velocityY;
 	boolean isGrounded, right, left, shield, dead;
 
@@ -967,14 +967,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		}else {
 			if (mouseLeft) {
 				for(int i = 0; i < AIObject.length; i++){
-					if ((drawSword) && (cooldown ==0) && (x -AIObject[i].getAIX() <85) && (x-AIObject[i].getAIX() >-1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
+					if ((drawSword) && (cooldown == 0) && (playerObject[0].getX() -AIObject[i].getAIX() <85) && (playerObject[0].getX()-AIObject[i].getAIX() >-1) && (playerObject[0].getY() - AIObject[i].getAIY() < 20) && (playerObject[0].getY()-AIObject[i].getAIY()>-5)) {
 						AIObject[i].setHealth(-50);
 						cooldown = 5;
 					}
 				}
 			}else {
 				for(int i=0; i < AIObject.length; i++){
-					if ((drawSword) && (cooldown == 0) && (AIObject[i].getAIX()-x <85) && (AIObject[i].getAIX() - x > -1) && (y - AIObject[i].getAIY() < 20) && (y-AIObject[i].getAIY()>-5)) {
+					if ((drawSword) && (cooldown == 0) && (AIObject[i].getAIX()-playerObject[0].getX() <85) && (AIObject[i].getAIX() - playerObject[0].getX() > -1) && (playerObject[0].getY() - AIObject[i].getAIY() < 20) && (playerObject[0].getY()-AIObject[i].getAIY()>-5)) {
 						AIObject[i].setHealth(-50);
 						cooldown = 5;
 					}
