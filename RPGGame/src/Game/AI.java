@@ -46,7 +46,11 @@ public class AI {
 	public double getAIHealth() {
 		return AIHealth;
 	}
+	//overloaded method. Runs double regardless
 	public void setHealth(int amount) {
+		setHealth(amount);
+	}
+	public void  setHealth(double amount) {
 		AIHealth+=amount;
 	}
 	public void moveAIX(int amount){

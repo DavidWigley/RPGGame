@@ -211,6 +211,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	int AIDeadCount = 0;
 	Player[] playerObject;
 	private static final float DAMAGE_AMOUNT = .6f;
+	private double damageReduction = 1;
 	Random generator = new Random();;
 	private static final int AI_HEALTH_WIDTH_SCALE = 3;
 	private static int AI_ORIG_HEALTH;
@@ -322,6 +323,13 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		playerObject = new Player[currentPlayer];
 		for(int i=0; i < playerObject.length; i++){
 			playerObject[i] = new Player(x,y,healthX);
+		}
+		if(difficulty == 1) {
+			damageReduction = 1;
+		}else if (difficulty ==2) {
+			damageReduction = .85;
+		}else {
+			damageReduction = .7;
 		}
 		gameState = 2;
 	}
@@ -968,7 +976,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 		if (attackStyle == 2) {
 			for(int i = 0; i < AIObject.length; i++) {
 				if ((inFlight) && (Math.abs(aX-AIObject[i].getAIX()) < 5) && (Math.abs(aY-AIObject[i].getAIY())) < 4 ) {
-					AIObject[i].setHealth(-25);
+					AIObject[i].setHealth(-25 * damageReduction);
 					drawArrow = false;
 					cooldown = 15;
 				}
@@ -977,14 +985,14 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			if (mouseLeft) {
 				for(int i = 0; i < AIObject.length; i++){
 					if ((drawSword) && (cooldown == 0) && (playerObject[0].getX() -AIObject[i].getAIX() <85) && (playerObject[0].getX()-AIObject[i].getAIX() >-1) && (playerObject[0].getY() - AIObject[i].getAIY() < 20) && (playerObject[0].getY()-AIObject[i].getAIY()>-5)) {
-						AIObject[i].setHealth(-50);
+						AIObject[i].setHealth(-50 * damageReduction);
 						cooldown = 5;
 					}
 				}
 			}else {
 				for(int i=0; i < AIObject.length; i++){
 					if ((drawSword) && (cooldown == 0) && (AIObject[i].getAIX()-playerObject[0].getX() <85) && (AIObject[i].getAIX() - playerObject[0].getX() > -1) && (playerObject[0].getY() - AIObject[i].getAIY() < 20) && (playerObject[0].getY()-AIObject[i].getAIY()>-5)) {
-						AIObject[i].setHealth(-50);
+						AIObject[i].setHealth(-50 * damageReduction);
 						cooldown = 5;
 					}
 				}
@@ -1005,27 +1013,29 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	public void AIMove() {
 		for(int i = 0; i < AIObject.length; i ++){
 			for(int j = 0; j < playerObject.length; j++) {
-				if ((AIObject[i].getAIX() > playerObject[j].getX()) && (AIObject[i].getAIVelocityX() >-4)) {
-					if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
-						AIObject[i].setAIVelocityX(0);
+				if (!AIObject[i].isDead()){
+					if ((AIObject[i].getAIX() > playerObject[j].getX()) && (AIObject[i].getAIVelocityX() >-4)) {
+						if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
+							AIObject[i].setAIVelocityX(0);
+						}
+						else {
+							AIObject[i].setAIVelocityX(-.7f);
+						}
+					}else if ((AIObject[i].getAIX() < playerObject[j].getX()) && (AIObject[i].getAIVelocityX() < 4)) {
+						if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
+							AIObject[i].setAIVelocityX(0);
+						}
+						else {
+							AIObject[i].setAIVelocityX(.7f);
+						}
 					}
-					else {
-						AIObject[i].setAIVelocityX(-.7f);
+					if ((AIObject[i].getAIY() > playerObject[j].getX()) && (playerObject[j].isGrounded())) {
+						if (AIObject[i].isAIGrounded()) {
+							AIObject[i].setAIVelocityY(-.5f);
+						}
 					}
-				}else if ((AIObject[i].getAIX() < playerObject[j].getX()) && (AIObject[i].getAIVelocityX() < 4)) {
-					if(Math.abs(AIObject[i].getAIX() - playerObject[j].getX()) <= 10) {
-						AIObject[i].setAIVelocityX(0);
-					}
-					else {
-						AIObject[i].setAIVelocityX(.7f);
-					}
+					AIObject[i].move();
 				}
-				if ((AIObject[i].getAIY() > playerObject[j].getX()) && (playerObject[j].isGrounded())) {
-					if (AIObject[i].isAIGrounded()) {
-						AIObject[i].setAIVelocityY(-.5f);
-					}
-				}
-				AIObject[i].move();
 			}
 		}
 	}
