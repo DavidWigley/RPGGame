@@ -215,6 +215,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	Random generator = new Random();;
 	private static final int AI_HEALTH_WIDTH_SCALE = 3;
 	private static int AI_ORIG_HEALTH;
+	private static final double delayTime = 6500000 / 1000000;
 	public MainGame() {
 		base.frame.setVisible(true);
 		base.frame.setResizable(false);
@@ -230,7 +231,6 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 	}
 
 	public void run() {
-		long currentTime = System.nanoTime();
 		//main menu
 		while (gameState == 1) {
 			updateState();
@@ -247,10 +247,7 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 				e.printStackTrace();
 			}
 			while (isRunning) {
-				if (System.nanoTime() - currentTime >= 6500000) {
-					timerTask();
-					currentTime = System.nanoTime();
-				}
+				timerTask();
 			}
 		}
 	}
@@ -966,6 +963,11 @@ public class MainGame extends Canvas implements Runnable, KeyListener,MouseListe
 			AIMove();
 			AIDamage();
 			paint();
+			try {
+				Thread.sleep((long)delayTime);
+			} catch (InterruptedException e) {
+				System.out.println("Thread error");
+			}
 		}
 	}
 
